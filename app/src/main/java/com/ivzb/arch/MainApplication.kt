@@ -1,9 +1,11 @@
 package com.ivzb.arch
 
-import android.app.Application
 import android.os.StrictMode
+import com.ivzb.arch.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class MainApplication : Application() {
+class MainApplication : DaggerApplication() {
 
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
@@ -11,6 +13,10 @@ class MainApplication : Application() {
         }
 
         super.onCreate()
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(this)
     }
 
     private fun enableStrictMode() {
