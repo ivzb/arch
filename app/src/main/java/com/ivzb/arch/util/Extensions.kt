@@ -1,13 +1,16 @@
 package com.ivzb.arch.util
 
+import android.annotation.SuppressLint
 import android.os.Parcel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.os.BuildCompat
 import androidx.core.os.ParcelCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -179,4 +182,21 @@ fun View.requestApplyInsetsWhenAttached() {
             override fun onViewDetachedFromWindow(v: View) = Unit
         })
     }
+}
+
+fun View.isRtl() = layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+@SuppressLint("NewApi") // Lint does not understand isAtLeastQ currently
+fun DrawerLayout.shouldCloseDrawerFromBackPress(): Boolean {
+    if (BuildCompat.isAtLeastQ()) {
+        // If we're running on Q, and this call to closeDrawers is from a key event
+        // (for back handling), we should only honor it IF the device is not currently
+        // in gesture mode. We approximate that by checking the system gesture insets
+        return rootWindowInsets?.let {
+            val systemGestureInsets = it.systemGestureInsets
+            return systemGestureInsets.left == 0 && systemGestureInsets.right == 0
+        } ?: false
+    }
+    // On P and earlier, always close the drawer
+    return true
 }

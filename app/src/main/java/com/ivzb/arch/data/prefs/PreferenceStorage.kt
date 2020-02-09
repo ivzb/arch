@@ -51,7 +51,7 @@ class SharedPreferenceStorage @Inject constructor(context: Context) : Preference
     )
 
     companion object {
-        const val PREFS_NAME = "iosched"
+        const val PREFS_NAME = "arch"
         const val PREF_ONBOARDING = "pref_onboarding"
         const val PREF_DARK_MODE_ENABLED = "pref_dark_mode"
     }

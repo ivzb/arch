@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <style name="Widget.Arch.NavigationBarContentFrameLayout" parent="android:Widget.Material">
+        <item name="navigationBarBorderColor">?attr/archNavigationBarDividerColor</item>
+        <item name="navigationBarBorderSize">1dp</item>
+    </style>
+
+    <style name="Widget.Arch.NavigationView" parent="@style/Widget.MaterialComponents.NavigationView">
+        <item name="itemBackground">@drawable/navigation_item_background</item>
+        <item name="itemHorizontalPadding">@dimen/nav_item_horizontal_padding</item>
+    </style>
+
+    <style name="HashtagIoDecoration">
+        <item name="android:drawable">@drawable/hashtag_io19</item>
+        <item name="margin">@dimen/nav_item_horizontal_padding</item>
+    </style>
+
+    <style name="Widget.IOSched" parent="@android:style/Widget.Material" />
+
+    <style name="Widget.IOSched.AppBar" parent="@style/Widget.Design.AppBarLayout">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+</resources>

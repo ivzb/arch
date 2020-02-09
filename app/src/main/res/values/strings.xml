@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">arch</string>
 
+    <string name="title_home">Home</string>
+
     <!-- Onboarding -->
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_welcome">Arch</string>
+    <string name="onboarding_welcome_to_arch">Welcome to Arch</string>
     <string name="description_message">Description message</string>
+
+    <string name="settings_title">Settings</string>
 </resources>
