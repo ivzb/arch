@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">arch</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_welcome">Arch</string>
+    <string name="description_message">Description message</string>
 </resources>

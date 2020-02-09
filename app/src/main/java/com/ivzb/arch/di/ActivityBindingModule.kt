@@ -2,6 +2,8 @@ package com.ivzb.arch.di
 
 import com.ivzb.arch.ui.launcher.LaunchModule
 import com.ivzb.arch.ui.launcher.LauncherActivity
+import com.ivzb.arch.ui.onboarding.OnboardingActivity
+import com.ivzb.arch.ui.onboarding.OnboardingModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +23,8 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [LaunchModule::class])
     internal abstract fun launcherActivity(): LauncherActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [OnboardingModule::class])
+    internal abstract fun onboardingActivity(): OnboardingActivity
 }
