@@ -15,7 +15,7 @@ import com.ivzb.arch.util.isRtl
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-class HashtagIoDecoration(context: Context) : ItemDecoration() {
+class HashtagArchDecoration(context: Context) : ItemDecoration() {
 
     private val drawable: Drawable?
     private val margin: Int
@@ -24,13 +24,13 @@ class HashtagIoDecoration(context: Context) : ItemDecoration() {
 
     init {
         val attrs = context.obtainStyledAttributes(
-            R.style.HashtagIoDecoration,
-            R.styleable.HashtagIoDecoration
+            R.style.HashtagArchDecoration,
+            R.styleable.HashtagArchDecoration
         )
-        drawable = attrs.getDrawable(R.styleable.HashtagIoDecoration_android_drawable)?.apply {
+        drawable = attrs.getDrawable(R.styleable.HashtagArchDecoration_android_drawable)?.apply {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
         }
-        margin = attrs.getDimensionPixelSize(R.styleable.HashtagIoDecoration_margin, 0)
+        margin = attrs.getDimensionPixelSize(R.styleable.HashtagArchDecoration_margin, 0)
         attrs.recycle()
 
         decorBottom = 2 * margin + (drawable?.intrinsicHeight ?: 0)

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Intermediate style to make further style extensions below easier to follow -->
+    <style name="TextAppearance.Arch.Body2" parent="TextAppearance.MaterialComponents.Body2" />
+
     <!-- Navigation -->
     <style name="Widget.Arch.NavigationBarContentFrameLayout" parent="android:Widget.Material">
         <item name="navigationBarBorderColor">?attr/archNavigationBarDividerColor</item>
@@ -11,15 +14,42 @@
         <item name="itemHorizontalPadding">@dimen/nav_item_horizontal_padding</item>
     </style>
 
-    <style name="HashtagIoDecoration">
+    <style name="HashtagArchDecoration">
         <item name="android:drawable">@drawable/hashtag_io19</item>
         <item name="margin">@dimen/nav_item_horizontal_padding</item>
     </style>
 
-    <style name="Widget.IOSched" parent="@android:style/Widget.Material" />
+    <style name="Widget.Arch" parent="@android:style/Widget.Material" />
 
-    <style name="Widget.IOSched.AppBar" parent="@style/Widget.Design.AppBarLayout">
+    <style name="Widget.Arch.AppBar" parent="@style/Widget.Design.AppBarLayout">
         <item name="android:background">?attr/colorSurface</item>
         <item name="android:elevation">8dp</item>
+    </style>
+
+    <style name="Widget.Arch.Feed.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">?android:attr/colorControlHighlight</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">@dimen/feed_card_corner_radius</item>
+    </style>
+
+    <style name="Widget.Arch.MultilineBody">
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <!-- Misc -->
+    <style name="Widget.Arch.EmptyResults">
+        <item name="android:drawablePadding">@dimen/margin_normal</item>
+        <item name="android:drawableTop">@drawable/no_items_found_204</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Section headers -->
+    <style name="TextAppearance.Arch.Overline" parent="@style/TextAppearance.Arch.Body2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 </resources>

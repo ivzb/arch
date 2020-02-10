@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="sectionHeader"
+            type="com.ivzb.arch.ui.SectionHeader" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:minHeight="?actionBarSize"
+        android:paddingLeft="@{ sectionHeader.useHorizontalPadding ? @dimen/margin_normal : 0 }"
+        android:paddingRight="@{ sectionHeader.useHorizontalPadding ? @dimen/margin_normal : 0 }"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.Arch.Overline"
+        android:text="@{sectionHeader.titleId}" />
+</layout>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@id/navigation_feed"
-        android:name="com.google.samples.apps.iosched.ui.feed.FeedFragment"
+        android:name="com.ivzb.arch.ui.feed.FeedFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_feed" />
 </navigation>

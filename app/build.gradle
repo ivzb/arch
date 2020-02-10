@@ -44,6 +44,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "androidx.browser:browser:$rootProject.browserVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "com.pacioianu.david:ink-page-indicator:$rootProject.pageIndicatorVersion"
 
@@ -71,4 +72,13 @@ dependencies {
     // Instrumentation tests
     androidTestImplementation "androidx.test.ext:junit:$testExtVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    // Date and time API for Java.
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threetenabpVersion"
+    testImplementation "org.threeten:threetenbp:$rootProject.threetenbpVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
 }

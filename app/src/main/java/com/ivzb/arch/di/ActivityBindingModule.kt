@@ -1,5 +1,6 @@
 package com.ivzb.arch.di
 
+import com.ivzb.arch.ui.feed.FeedModule
 import com.ivzb.arch.ui.launcher.LaunchModule
 import com.ivzb.arch.ui.launcher.LauncherActivity
 import com.ivzb.arch.ui.main.MainActivity
@@ -31,6 +32,12 @@ abstract class ActivityBindingModule {
     internal abstract fun onboardingActivity(): OnboardingActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [MainActivityModule::class])
+    @ContributesAndroidInjector(modules = [
+        // activity
+        MainActivityModule::class,
+
+        // fragments
+        FeedModule::class
+    ])
     internal abstract fun mainActivity(): MainActivity
 }

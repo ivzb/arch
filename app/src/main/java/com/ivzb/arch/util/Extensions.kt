@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.BuildCompat
 import androidx.core.os.ParcelCompat
 import androidx.core.view.ViewCompat
@@ -15,13 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import com.ivzb.arch.BuildConfig
+import com.ivzb.arch.ui.main.MainActivityViewModel
 
 /** Convenience for callbacks/listeners whose return value indicates an event was consumed. */
 inline fun consume(f: () -> Unit): Boolean {
@@ -199,4 +196,62 @@ fun DrawerLayout.shouldCloseDrawerFromBackPress(): Boolean {
     }
     // On P and earlier, always close the drawer
     return true
+}
+
+/**
+ * Combines this [LiveData] with another [LiveData] using the specified [combiner] and returns the
+ * result as a [LiveData].
+ */
+fun <A, B, Result> LiveData<A>.combine(
+    other: LiveData<B>,
+    combiner: (A, B) -> Result
+): LiveData<Result> {
+    val result = MediatorLiveData<Result>()
+    result.addSource(this) { a ->
+        val b = other.value
+        if (b != null) {
+            result.postValue(combiner(a, b))
+        }
+    }
+    result.addSource(other) { b ->
+        val a = this@combine.value
+        if (a != null) {
+            result.postValue(combiner(a, b))
+        }
+    }
+    return result
+}
+
+/**
+ * Combines this [LiveData] with other two [LiveData]s using the specified [combiner] and returns
+ * the result as a [LiveData].
+ */
+fun <A, B, C, Result> LiveData<A>.combine(
+    other1: LiveData<B>,
+    other2: LiveData<C>,
+    combiner: (A, B, C) -> Result
+): LiveData<Result> {
+    val result = MediatorLiveData<Result>()
+    result.addSource(this) { a ->
+        val b = other1.value
+        val c = other2.value
+        if (b != null && c != null) {
+            result.postValue(combiner(a, b, c))
+        }
+    }
+    result.addSource(other1) { b ->
+        val a = this@combine.value
+        val c = other2.value
+        if (a != null && c != null) {
+            result.postValue(combiner(a, b, c))
+        }
+    }
+    result.addSource(other2) { c ->
+        val a = this@combine.value
+        val b = other1.value
+        if (a != null && b != null) {
+            result.postValue(combiner(a, b, c))
+        }
+    }
+    return result
 }

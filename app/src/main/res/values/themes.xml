@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorSecondary">?attr/colorPrimary</item>
         <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorControlLight">@color/color_control_light</item>
 
         <!-- Window decor -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/use_light_status</item>
@@ -17,6 +18,9 @@
 
         <!-- Dialogs -->
         <item name="materialAlertDialogTheme">@style/AlertDialog.Theme</item>
+
+        <!-- Custom theme attrs -->
+        <item name="archNavigationBarDividerColor">?attr/colorControlLight</item>
     </style>
 
     <style name="ThemeOverlay.Arch.Light" parent="ThemeOverlay.MaterialComponents.Light">

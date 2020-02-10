@@ -19,6 +19,8 @@ import kotlin.reflect.KProperty
  */
 interface PreferenceStorage {
     var onboardingCompleted: Boolean
+    var snackbarIsStopped: Boolean
+    var observableSnackbarIsStopped: LiveData<Boolean>
     var selectedTheme: String?
 }
 
@@ -36,6 +38,8 @@ class SharedPreferenceStorage @Inject constructor(context: Context) : Preference
         }
     }
 
+    private val observableShowSnackbarResult = MutableLiveData<Boolean>()
+
     private val observableSelectedThemeResult = MutableLiveData<String>()
 
     private val changeListener = OnSharedPreferenceChangeListener { _, key ->
@@ -46,6 +50,15 @@ class SharedPreferenceStorage @Inject constructor(context: Context) : Preference
 
     override var onboardingCompleted by BooleanPreference(prefs, PREF_ONBOARDING, false)
 
+    override var snackbarIsStopped by BooleanPreference(prefs, PREF_SNACKBAR_IS_STOPPED, false)
+
+    override var observableSnackbarIsStopped: LiveData<Boolean>
+        get() {
+            observableShowSnackbarResult.value = snackbarIsStopped
+            return observableShowSnackbarResult
+        }
+        set(_) = throw IllegalAccessException("This property can't be changed")
+
     override var selectedTheme by StringPreference(
         prefs, PREF_DARK_MODE_ENABLED, Theme.SYSTEM.storageKey
     )
@@ -53,6 +66,7 @@ class SharedPreferenceStorage @Inject constructor(context: Context) : Preference
     companion object {
         const val PREFS_NAME = "arch"
         const val PREF_ONBOARDING = "pref_onboarding"
+        const val PREF_SNACKBAR_IS_STOPPED = "pref_snackbar_is_stopped"
         const val PREF_DARK_MODE_ENABLED = "pref_dark_mode"
     }
 

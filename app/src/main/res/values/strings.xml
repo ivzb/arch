@@ -3,6 +3,11 @@
 
     <string name="title_home">Home</string>
 
+    <string name="dont_show">Don\'t show</string>
+
+    <!-- Accessibility -->
+    <string name="a11y_show_navigation">Show navigation menu</string>
+
     <!-- Onboarding -->
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_welcome">Arch</string>
@@ -10,4 +15,9 @@
     <string name="description_message">Description message</string>
 
     <string name="settings_title">Settings</string>
+
+    <!-- Feed -->
+    <string name="feed_not_available">No announcements found.</string>
+    <string name="feed_loading_error">Could not load feed. Try again later.</string>
+    <string name="feed_announcement_title">Announcements</string>
 </resources>

@@ -18,7 +18,7 @@
         <attr name="navigationBarBorderSize" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="HashtagIoDecoration">
+    <declare-styleable name="HashtagArchDecoration">
         <attr name="android:drawable" />
         <attr name="margin" format="dimension" />
     </declare-styleable>

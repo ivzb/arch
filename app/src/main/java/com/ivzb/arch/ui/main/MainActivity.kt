@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationView
 import com.ivzb.arch.R
 import com.ivzb.arch.databinding.NavigationHeaderBinding
 import com.ivzb.arch.util.*
-import com.ivzb.arch.widget.HashtagIoDecoration
+import com.ivzb.arch.widget.HashtagArchDecoration
 import com.ivzb.arch.widget.NavigationBarContentFrameLayout
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -114,7 +114,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         navigation.apply {
             // Add the #io19 decoration
             val menuView = findViewById<RecyclerView>(R.id.design_navigation_view)?.apply {
-                addItemDecoration(HashtagIoDecoration(context))
+                addItemDecoration(HashtagArchDecoration(context))
             }
             // Update the Navigation header view to pad itself down
             navHeaderBinding.root.doOnApplyWindowInsets { v, insets, padding ->

@@ -2,8 +2,14 @@ package com.ivzb.arch.di
 
 import android.content.Context
 import com.ivzb.arch.MainApplication
+import com.ivzb.arch.data.feed.AnnouncementDataSource
+import com.ivzb.arch.data.feed.DefaultFeedRepository
+import com.ivzb.arch.data.feed.FeedRepository
+import com.ivzb.arch.data.feed.MockAnnouncementDataSource
 import com.ivzb.arch.data.prefs.PreferenceStorage
 import com.ivzb.arch.data.prefs.SharedPreferenceStorage
+import com.ivzb.arch.domain.time.DefaultTimeProvider
+import com.ivzb.arch.domain.time.TimeProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,4 +32,22 @@ class AppModule {
     @Provides
     fun providesPreferenceStorage(context: Context): PreferenceStorage =
         SharedPreferenceStorage(context)
+
+    @Singleton
+    @Provides
+    fun provideTimeProvider(): TimeProvider {
+        return DefaultTimeProvider
+    }
+
+    @Singleton
+    @Provides
+    fun provideAnnouncementDataSource(): AnnouncementDataSource {
+        return MockAnnouncementDataSource()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedRepository(dataSource: AnnouncementDataSource): FeedRepository {
+        return DefaultFeedRepository(dataSource)
+    }
 }

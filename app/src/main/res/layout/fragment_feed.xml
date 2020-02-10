@@ -17,7 +17,7 @@
 
         <View
             android:id="@+id/status_bar"
-            style="@style/Widget.IOSched.AppBar"
+            style="@style/Widget.Arch.AppBar"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
@@ -27,7 +27,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.IOSched.AppBar"
+            style="@style/Widget.Arch.AppBar"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -54,7 +54,7 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <com.google.samples.apps.iosched.widget.FadingSnackbar
+        <com.ivzb.arch.widget.FadingSnackbar
             android:id="@+id/snackbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
