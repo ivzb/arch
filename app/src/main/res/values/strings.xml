@@ -17,7 +17,7 @@
     <string name="settings_title">Settings</string>
 
     <!-- Feed -->
-    <string name="feed_not_available">No announcements found.</string>
+    <string name="feed_not_available">Nothing saved yet.</string>
     <string name="feed_loading_error">Could not load feed. Try again later.</string>
-    <string name="feed_announcement_title">Announcements</string>
+    <string name="feed_archive_title">Archive</string>
 </resources>

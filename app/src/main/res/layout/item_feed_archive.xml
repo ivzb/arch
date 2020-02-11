@@ -8,12 +8,8 @@
         <import type="androidx.lifecycle.LiveData" />
 
         <variable
-            name="timeZoneId"
-            type="LiveData&lt;org.threeten.bp.ZoneId&gt;" />
-
-        <variable
-            name="announcement"
-            type="com.ivzb.arch.model.Announcement" />
+            name="archive"
+            type="com.ivzb.arch.model.Archive" />
 
     </data>
 
@@ -29,7 +25,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/feed_announcement_min_height">
+            android:minHeight="@dimen/feed_archive_min_height">
 
             <ImageView
                 android:id="@+id/image"
@@ -41,9 +37,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="@dimen/feed_announcement_image_width_percent"
-                app:goneUnless="@{announcement.hasImage}"
-                app:imageUrl="@{announcement.imageUrl}"
+                app:layout_constraintWidth_percent="@dimen/feed_archive_image_width_percent"
+                app:goneUnless="@{archive.hasImage}"
+                app:imageUrl="@{archive.imageUrl}"
                 app:placeholder="@{@drawable/generic_placeholder}"
                 tools:src="@drawable/event_header_sessions"
                 tools:visibility="visible" />
@@ -53,22 +49,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
-                android:text="@{announcement.title}"
+                android:text="@{archive.title}"
                 android:textAlignment="viewStart"
                 android:textAppearance="?textAppearanceListItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Google I/O Highlights" />
+                tools:text="Archive" />
 
             <TextView
-                android:id="@+id/message"
+                android:id="@+id/value"
                 style="@style/Widget.Arch.MultilineBody"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
                 android:autoLink="web"
-                android:text="@{announcement.message}"
+                android:text="@{archive.value}"
                 android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -2,10 +2,8 @@ package com.ivzb.arch.di
 
 import android.content.Context
 import com.ivzb.arch.MainApplication
-import com.ivzb.arch.data.feed.AnnouncementDataSource
-import com.ivzb.arch.data.feed.DefaultFeedRepository
-import com.ivzb.arch.data.feed.FeedRepository
-import com.ivzb.arch.data.feed.MockAnnouncementDataSource
+import com.ivzb.arch.data.archive.*
+import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.prefs.PreferenceStorage
 import com.ivzb.arch.data.prefs.SharedPreferenceStorage
 import com.ivzb.arch.domain.time.DefaultTimeProvider
@@ -41,13 +39,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideAnnouncementDataSource(): AnnouncementDataSource {
-        return MockAnnouncementDataSource()
+    fun provideArchiveRepository(appDatabase: AppDatabase): ArchiveRepository {
+        return DefaultFeedRepository(appDatabase)
     }
 
     @Singleton
     @Provides
-    fun provideFeedRepository(dataSource: AnnouncementDataSource): FeedRepository {
-        return DefaultFeedRepository(dataSource)
-    }
+    fun providesAppDatabase(context: Context): AppDatabase = AppDatabase.buildDatabase(context)
 }

@@ -9,13 +9,10 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ivzb.arch.databinding.FragmentFeedBinding
-import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
-import com.ivzb.arch.util.activityViewModelProvider
 import com.ivzb.arch.util.doOnApplyWindowInsets
 import com.ivzb.arch.util.setUpSnackbar
 import com.ivzb.arch.util.viewModelProvider
@@ -86,15 +83,15 @@ class FeedFragment : MainNavigationFragment() {
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
         if (adapter == null) {
             val sectionHeaderViewBinder = FeedSectionHeaderViewBinder()
-            val announcementViewBinder = AnnouncementViewBinder(this)
-            val announcementsEmptyViewBinder = AnnouncementsEmptyViewBinder()
-            val announcementsLoadingViewBinder = AnnouncementsLoadingViewBinder()
+            val archiveViewBinder = ArchiveViewBinder(this)
+            val archiveEmptyViewBinder = ArchiveEmptyViewBinder()
+            val archiveLoadingViewBinder = ArchiveLoadingViewBinder()
 
             val viewBinders = HashMap<FeedItemClass, FeedItemBinder>()
             viewBinders.put(sectionHeaderViewBinder.modelClass, sectionHeaderViewBinder as FeedItemBinder)
-            viewBinders.put(announcementViewBinder.modelClass, announcementViewBinder as FeedItemBinder)
-            viewBinders.put(announcementsEmptyViewBinder.modelClass, announcementsEmptyViewBinder as FeedItemBinder)
-            viewBinders.put(announcementsLoadingViewBinder.modelClass, announcementsLoadingViewBinder as FeedItemBinder)
+            viewBinders.put(archiveViewBinder.modelClass, archiveViewBinder as FeedItemBinder)
+            viewBinders.put(archiveEmptyViewBinder.modelClass, archiveEmptyViewBinder as FeedItemBinder)
+            viewBinders.put(archiveLoadingViewBinder.modelClass, archiveLoadingViewBinder as FeedItemBinder)
 
             adapter = FeedAdapter(viewBinders)
         }
