@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -72,11 +72,6 @@ dependencies {
     // Instrumentation tests
     androidTestImplementation "androidx.test.ext:junit:$testExtVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-
-    // Date and time API for Java.
-    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threetenabpVersion"
-    testImplementation "org.threeten:threetenbp:$rootProject.threetenbpVersion"
-    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"

@@ -6,13 +6,13 @@ import com.ivzb.arch.model.Archive
 import javax.inject.Inject
 
 /**
- * Loads all archive items into a list.
+ * Insert archive item into db.
  */
-open class LoadArchiveUseCase @Inject constructor(
+open class InsertArchiveUseCase @Inject constructor(
     private val repository: ArchiveRepository
-) : UseCase<Unit, List<Archive>>() {
+) : UseCase<Archive, Unit>() {
 
-    override fun execute(parameters: Unit): List<Archive> {
-        return repository.getAll()
+    override fun execute(parameters: Archive) {
+        return repository.insert(parameters)
     }
 }

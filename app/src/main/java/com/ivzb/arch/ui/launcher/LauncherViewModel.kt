@@ -1,11 +1,17 @@
 package com.ivzb.arch.ui.launcher
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
+import com.ivzb.arch.domain.archive.InsertArchiveUseCase
 import com.ivzb.arch.domain.prefs.OnboardingCompletedUseCase
+import com.ivzb.arch.model.Archive
 import com.ivzb.arch.util.map
 import javax.inject.Inject
 
@@ -13,7 +19,8 @@ import javax.inject.Inject
  * Logic for determining which screen to send users to on app launch.
  */
 class LaunchViewModel @Inject constructor(
-    onboardingCompletedUseCase: OnboardingCompletedUseCase
+    onboardingCompletedUseCase: OnboardingCompletedUseCase,
+    val insertArchiveUseCase: InsertArchiveUseCase
 ) : ViewModel() {
 
     private val onboardingCompletedResult = MutableLiveData<Result<Boolean>>()
@@ -29,6 +36,29 @@ class LaunchViewModel @Inject constructor(
             } else {
                 Event(LaunchDestination.MAIN_ACTIVITY)
             }
+        }
+    }
+
+    fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            insertArchiveUseCase(
+                Archive(
+                    title = "handle send text",
+                    value = it
+                )
+            )
+        }
+    }
+
+    fun handleSendImage(intent: Intent) {
+        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+            Log.d("arch", it.toString())
+        }
+    }
+
+    fun handleSendMultipleImages(intent: Intent) {
+        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)?.let {
+            Log.d("arch", it.toString())
         }
     }
 }

@@ -10,7 +10,6 @@ import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
 import com.ivzb.arch.domain.archive.LoadArchiveUseCase
 import com.ivzb.arch.domain.successOr
-import com.ivzb.arch.domain.time.TimeProvider
 import com.ivzb.arch.model.Archive
 import com.ivzb.arch.ui.SectionHeader
 import com.ivzb.arch.util.SnackbarMessage
@@ -24,8 +23,7 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    loadArchiveUseCase: LoadArchiveUseCase,
-    private val timeProvider: TimeProvider
+    loadArchiveUseCase: LoadArchiveUseCase
 ) : ViewModel() {
 
     val feed: LiveData<List<Any>>
@@ -37,7 +35,7 @@ class FeedViewModel @Inject constructor(
     private val loadArchiveResult = MutableLiveData<Result<List<Archive>>>()
 
     init {
-        loadArchiveUseCase(timeProvider.now(), loadArchiveResult)
+        loadArchiveUseCase(Unit, loadArchiveResult)
         val archive: LiveData<List<Any>> = loadArchiveResult.map {
             if (it is Loading) {
                 listOf(LoadingIndicator)

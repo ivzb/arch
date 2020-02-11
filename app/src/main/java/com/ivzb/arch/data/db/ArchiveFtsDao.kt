@@ -12,8 +12,11 @@ import androidx.room.Query
 interface ArchiveFtsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(archive: ArchiveFtsEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(archive: List<ArchiveFtsEntity>)
 
-    @Query("SELECT * FROM archiveFts")
+    @Query("SELECT rowid, title, value FROM archiveFts")
     fun getAll(): List<ArchiveFtsEntity>
 }

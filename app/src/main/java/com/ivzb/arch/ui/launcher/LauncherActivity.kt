@@ -38,34 +38,15 @@ class LauncherActivity : DaggerAppCompatActivity() {
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
-                    handleSendText(intent) // Handle text being sent
+                    viewModel.handleSendText(intent)
                 } else if (intent.type?.startsWith("image/") == true) {
-                    handleSendImage(intent) // Handle single image being sent
+                    viewModel.handleSendImage(intent)
                 }
             }
 
-            intent?.action == Intent.ACTION_SEND_MULTIPLE
-                    && intent.type?.startsWith("image/") == true -> {
-                handleSendMultipleImages(intent) // Handle multiple images being sent
+            intent?.action == Intent.ACTION_SEND_MULTIPLE && intent.type?.startsWith("image/") == true -> {
+                viewModel.handleSendMultipleImages(intent)
             }
-        }
-    }
-
-    private fun handleSendText(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            Log.d("arch", it)
-        }
-    }
-
-    private fun handleSendImage(intent: Intent) {
-        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
-            Log.d("arch", it.toString())
-        }
-    }
-
-    private fun handleSendMultipleImages(intent: Intent) {
-        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)?.let {
-            Log.d("arch", it.toString())
         }
     }
 }

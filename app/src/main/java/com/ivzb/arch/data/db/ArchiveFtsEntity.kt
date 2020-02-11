@@ -3,6 +3,7 @@ package com.ivzb.arch.data.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Fts4
+import androidx.room.PrimaryKey
 
 /**
  * This class represents [Archive] data for searching with FTS.
@@ -23,8 +24,9 @@ data class ArchiveFtsEntity(
      * but can still be used in queries.
      */
 
-    @ColumnInfo(name = "archiveId")
-    val archiveId: String,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "rowid")
+    val id: Int = 0,
 
     @ColumnInfo(name = "title")
     val title: String,
