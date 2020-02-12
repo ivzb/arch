@@ -9,13 +9,13 @@ import androidx.room.RoomDatabase
  * The [Room] database for this app.
  */
 @Database(entities = [
-    ArchiveFtsEntity::class
+    LinkFtsEntity::class
 ],
     version = 1,
     exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun archiveFtsDao(): ArchiveFtsDao
+    abstract fun linksFtsDao(): LinksFtsDao
 
     companion object {
         private const val databaseName = "arch-db"

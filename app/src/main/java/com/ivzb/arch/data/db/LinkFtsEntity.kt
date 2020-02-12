@@ -6,14 +6,14 @@ import androidx.room.Fts4
 import androidx.room.PrimaryKey
 
 /**
- * This class represents [Archive] data for searching with FTS.
+ * This class represents [Link] data for searching with FTS.
  *
  * The [ColumnInfo] name is explicitly declared to allow flexibility for renaming the data class
  * properties without requiring changing the column name.
  */
-@Entity(tableName = "archiveFts")
+@Entity(tableName = "linkFts")
 @Fts4
-data class ArchiveFtsEntity(
+data class LinkFtsEntity(
 
     /**
      * An FTS entity table always has a column named rowid that is the equivalent of an

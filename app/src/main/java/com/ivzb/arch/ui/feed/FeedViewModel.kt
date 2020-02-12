@@ -8,9 +8,9 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
-import com.ivzb.arch.domain.archive.LoadArchiveUseCase
+import com.ivzb.arch.domain.links.LoadLinksUseCase
 import com.ivzb.arch.domain.successOr
-import com.ivzb.arch.model.Archive
+import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.SectionHeader
 import com.ivzb.arch.util.SnackbarMessage
 import com.ivzb.arch.util.combine
@@ -23,7 +23,7 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    loadArchiveUseCase: LoadArchiveUseCase
+    loadLinksUseCase: LoadLinksUseCase
 ) : ViewModel() {
 
     val feed: LiveData<List<Any>>
@@ -32,35 +32,35 @@ class FeedViewModel @Inject constructor(
 
     val snackBarMessage: LiveData<Event<SnackbarMessage>>
 
-    private val loadArchiveResult = MutableLiveData<Result<List<Archive>>>()
+    private val loadLinksResult = MutableLiveData<Result<List<Link>>>()
 
     init {
-        loadArchiveUseCase(Unit, loadArchiveResult)
-        val archive: LiveData<List<Any>> = loadArchiveResult.map {
+        loadLinksUseCase(Unit, loadLinksResult)
+        val links: LiveData<List<Any>> = loadLinksResult.map {
             if (it is Loading) {
                 listOf(LoadingIndicator)
             } else {
                 val items = it.successOr(emptyList())
-                if (items.isNotEmpty()) items else listOf(ArchiveEmpty)
+                if (items.isNotEmpty()) items else listOf(LinkEmpty)
             }
         }
 
         // Compose feed
-        feed = MutableLiveData(mutableListOf(SectionHeader(R.string.feed_archive_title)))
-            .combine(archive) { header, archiveItems ->
+        feed = MutableLiveData(mutableListOf(SectionHeader(R.string.feed_links_title)))
+            .combine(links) { header, linkItems ->
                 val feedItems = mutableListOf<Any>()
 
                 feedItems.plus(header)
-                    .plus(archiveItems)
+                    .plus(linkItems)
             }
 
-        errorMessage = loadArchiveResult.map {
+        errorMessage = loadLinksResult.map {
             Event(content = (it as? Result.Error)?.exception?.message ?: "")
         }
 
         // Show an error message if the feed could not be loaded.
         snackBarMessage = MediatorLiveData()
-        snackBarMessage.addSource(loadArchiveResult) {
+        snackBarMessage.addSource(loadLinksResult) {
             if (it is Result.Error) {
                 snackBarMessage.value =
                     Event(

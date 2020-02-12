@@ -8,8 +8,8 @@
         <import type="androidx.lifecycle.LiveData" />
 
         <variable
-            name="archive"
-            type="com.ivzb.arch.model.Archive" />
+            name="link"
+            type="com.ivzb.arch.model.Link" />
 
     </data>
 
@@ -25,7 +25,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/feed_archive_min_height">
+            android:minHeight="@dimen/feed_link_min_height">
 
             <ImageView
                 android:id="@+id/image"
@@ -37,9 +37,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="@dimen/feed_archive_image_width_percent"
-                app:goneUnless="@{archive.hasImage}"
-                app:imageUrl="@{archive.imageUrl}"
+                app:layout_constraintWidth_percent="@dimen/feed_link_image_width_percent"
+                app:goneUnless="@{link.hasImage}"
+                app:imageUrl="@{link.imageUrl}"
                 app:placeholder="@{@drawable/generic_placeholder}"
                 tools:src="@drawable/event_header_sessions"
                 tools:visibility="visible" />
@@ -49,13 +49,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
-                android:text="@{archive.title}"
+                android:text="@{link.title}"
                 android:textAlignment="viewStart"
                 android:textAppearance="?textAppearanceListItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Archive" />
+                tools:text="Link" />
 
             <TextView
                 android:id="@+id/value"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
                 android:autoLink="web"
-                android:text="@{archive.value}"
+                android:text="@{link.value}"
                 android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

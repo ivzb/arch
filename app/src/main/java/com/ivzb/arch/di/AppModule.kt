@@ -2,7 +2,7 @@ package com.ivzb.arch.di
 
 import android.content.Context
 import com.ivzb.arch.MainApplication
-import com.ivzb.arch.data.archive.*
+import com.ivzb.arch.data.links.*
 import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.prefs.PreferenceStorage
 import com.ivzb.arch.data.prefs.SharedPreferenceStorage
@@ -31,7 +31,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideArchiveRepository(appDatabase: AppDatabase): ArchiveRepository {
+    fun provideLinksRepository(appDatabase: AppDatabase): LinksRepository {
         return DefaultFeedRepository(appDatabase)
     }
 

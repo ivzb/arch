@@ -74,8 +74,8 @@
     <dimen name="feed_header_cta_icon_padding">4dp</dimen>
     <dimen name="feed_session_dimension">200dp</dimen>
     <dimen name="feed_session_badge_icon_size">24dp</dimen>
-    <dimen name="feed_archive_min_height">96dp</dimen>
-    <item name="feed_archive_image_width_percent" format="float" type="dimen">0.3</item>
+    <dimen name="feed_link_min_height">96dp</dimen>
+    <item name="feed_link_image_width_percent" format="float" type="dimen">0.3</item>
     <dimen name="feed_moment_height">250dp</dimen>
     <dimen name="countdown_height">300dp</dimen>
 

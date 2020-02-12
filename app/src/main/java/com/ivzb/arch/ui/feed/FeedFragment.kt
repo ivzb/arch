@@ -83,15 +83,15 @@ class FeedFragment : MainNavigationFragment() {
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
         if (adapter == null) {
             val sectionHeaderViewBinder = FeedSectionHeaderViewBinder()
-            val archiveViewBinder = ArchiveViewBinder(this)
-            val archiveEmptyViewBinder = ArchiveEmptyViewBinder()
-            val archiveLoadingViewBinder = ArchiveLoadingViewBinder()
+            val linksViewBinder = LinksViewBinder(this)
+            val linksEmptyViewBinder = LinksEmptyViewBinder()
+            val linksLoadingViewBinder = LinksLoadingViewBinder()
 
             val viewBinders = HashMap<FeedItemClass, FeedItemBinder>()
             viewBinders.put(sectionHeaderViewBinder.modelClass, sectionHeaderViewBinder as FeedItemBinder)
-            viewBinders.put(archiveViewBinder.modelClass, archiveViewBinder as FeedItemBinder)
-            viewBinders.put(archiveEmptyViewBinder.modelClass, archiveEmptyViewBinder as FeedItemBinder)
-            viewBinders.put(archiveLoadingViewBinder.modelClass, archiveLoadingViewBinder as FeedItemBinder)
+            viewBinders.put(linksViewBinder.modelClass, linksViewBinder as FeedItemBinder)
+            viewBinders.put(linksEmptyViewBinder.modelClass, linksEmptyViewBinder as FeedItemBinder)
+            viewBinders.put(linksLoadingViewBinder.modelClass, linksLoadingViewBinder as FeedItemBinder)
 
             adapter = FeedAdapter(viewBinders)
         }

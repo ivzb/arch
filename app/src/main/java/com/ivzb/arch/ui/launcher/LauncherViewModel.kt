@@ -9,9 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
-import com.ivzb.arch.domain.archive.InsertArchiveUseCase
+import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.prefs.OnboardingCompletedUseCase
-import com.ivzb.arch.model.Archive
+import com.ivzb.arch.model.Link
 import com.ivzb.arch.util.map
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 class LaunchViewModel @Inject constructor(
     onboardingCompletedUseCase: OnboardingCompletedUseCase,
-    val insertArchiveUseCase: InsertArchiveUseCase
+    val insertLinkUseCase: InsertLinkUseCase
 ) : ViewModel() {
 
     private val onboardingCompletedResult = MutableLiveData<Result<Boolean>>()
@@ -41,8 +41,8 @@ class LaunchViewModel @Inject constructor(
 
     fun handleSendText(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            insertArchiveUseCase(
-                Archive(
+            insertLinkUseCase(
+                Link(
                     title = "handle send text",
                     value = it
                 )
