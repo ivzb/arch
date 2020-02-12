@@ -37,14 +37,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
-<!--            app:srcCompat="@drawable/welcome" />-->
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:srcCompat="@drawable/welcome" />
 
         <TextView
             android:id="@+id/tv_welcome_message"
+            style="@style/Widget.Arch.OnboardingText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_welcome"
+            android:text="@string/onboarding_welcome_to_arch"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/tv_description_message"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -53,6 +54,7 @@
 
         <TextView
             android:id="@+id/tv_description_message"
+            style="@style/Widget.Arch.OnboardingText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/description_message"

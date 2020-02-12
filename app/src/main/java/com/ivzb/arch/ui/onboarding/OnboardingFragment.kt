@@ -89,8 +89,9 @@ class OnboardingFragment : DaggerFragment() {
 class OnboardingAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     private val fragments = arrayOf(
+        WelcomeFragment(),
+        WelcomeFragment(),
         WelcomeFragment()
-//        OnboardingSignInFragment(),
     )
 
     override fun getItem(position: Int) = fragments[position]
