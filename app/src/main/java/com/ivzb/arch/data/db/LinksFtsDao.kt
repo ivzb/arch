@@ -1,5 +1,6 @@
 package com.ivzb.arch.data.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,6 +18,6 @@ interface LinksFtsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(link: List<LinkFtsEntity>)
 
-    @Query("SELECT rowid, title, value FROM linkFts")
+    @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts ORDER BY rowid DESC")
     fun getAll(): List<LinkFtsEntity>
 }

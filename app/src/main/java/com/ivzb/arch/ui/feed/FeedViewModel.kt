@@ -8,6 +8,7 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
+import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.links.LoadLinksUseCase
 import com.ivzb.arch.domain.successOr
 import com.ivzb.arch.model.Link
@@ -23,7 +24,8 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    loadLinksUseCase: LoadLinksUseCase
+    loadLinksUseCase: LoadLinksUseCase,
+    insertLinkUseCase: InsertLinkUseCase
 ) : ViewModel() {
 
     val feed: LiveData<List<Any>>
@@ -36,6 +38,7 @@ class FeedViewModel @Inject constructor(
 
     init {
         loadLinksUseCase(Unit, loadLinksResult)
+
         val links: LiveData<List<Any>> = loadLinksResult.map {
             if (it is Loading) {
                 listOf(LoadingIndicator)
@@ -46,6 +49,7 @@ class FeedViewModel @Inject constructor(
         }
 
         // Compose feed
+
         feed = MutableLiveData(mutableListOf(SectionHeader(R.string.feed_links_title)))
             .combine(links) { header, linkItems ->
                 val feedItems = mutableListOf<Any>()

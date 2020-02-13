@@ -76,4 +76,7 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+
+    // Utils
+    implementation "org.jsoup:jsoup:$rootProject.jsoupVersion"
 }

@@ -17,10 +17,10 @@
         style="@style/Widget.Arch.Feed.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small" >
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_small">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,12 +34,12 @@
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 android:visibility="gone"
+                app:goneUnless="@{link.imageUrl != null}"
+                app:imageUrl="@{link.imageUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="@dimen/feed_link_image_width_percent"
-                app:goneUnless="@{link.hasImage}"
-                app:imageUrl="@{link.imageUrl}"
                 app:placeholder="@{@drawable/generic_placeholder}"
                 tools:src="@drawable/event_header_sessions"
                 tools:visibility="visible" />
@@ -49,22 +49,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="@{link.title}"
                 android:textAlignment="viewStart"
                 android:textAppearance="?textAppearanceListItem"
+                app:goneUnless="@{link.title != null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Link" />
 
             <TextView
-                android:id="@+id/value"
+                android:id="@+id/url"
                 style="@style/Widget.Arch.MultilineBody"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
                 android:autoLink="web"
-                android:text="@{link.value}"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{link.url}"
                 android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

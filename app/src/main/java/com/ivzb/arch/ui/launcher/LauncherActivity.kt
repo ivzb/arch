@@ -27,26 +27,27 @@ class LauncherActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val viewModel: LaunchViewModel = viewModelProvider(viewModelFactory)
+
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    viewModel.handleLink(intent)
+                }
+            }
+            else -> viewModel.proceed()
+        }
+
         viewModel.launchDestination.observe(this, EventObserver { destination ->
             when (destination) {
                 LaunchDestination.MAIN_ACTIVITY -> startActivity(Intent(this, MainActivity::class.java))
                 LaunchDestination.ONBOARDING -> startActivity(Intent(this, OnboardingActivity::class.java))
             }.checkAllMatched
+
             finish()
         })
 
-        when {
-            intent?.action == Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    viewModel.handleSendText(intent)
-                } else if (intent.type?.startsWith("image/") == true) {
-                    viewModel.handleSendImage(intent)
-                }
-            }
-
-            intent?.action == Intent.ACTION_SEND_MULTIPLE && intent.type?.startsWith("image/") == true -> {
-                viewModel.handleSendMultipleImages(intent)
-            }
-        }
+        viewModel.linkInserted.observe(this, EventObserver { destination ->
+            viewModel.proceed()
+        })
     }
 }

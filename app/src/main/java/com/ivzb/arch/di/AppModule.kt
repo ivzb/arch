@@ -28,14 +28,4 @@ class AppModule {
     @Provides
     fun providesPreferenceStorage(context: Context): PreferenceStorage =
         SharedPreferenceStorage(context)
-
-    @Singleton
-    @Provides
-    fun provideLinksRepository(appDatabase: AppDatabase): LinksRepository {
-        return DefaultFeedRepository(appDatabase)
-    }
-
-    @Singleton
-    @Provides
-    fun providesAppDatabase(context: Context): AppDatabase = AppDatabase.buildDatabase(context)
 }

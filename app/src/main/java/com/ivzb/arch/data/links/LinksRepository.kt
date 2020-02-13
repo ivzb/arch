@@ -3,6 +3,7 @@ package com.ivzb.arch.data.links
 import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.db.LinkFtsEntity
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.model.LinkMetaData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +14,7 @@ interface LinksRepository {
 
     fun getAll(): List<Link>
 
-    fun insert(link: Link)
+    fun insert(link: Link, linkMetaData: LinkMetaData)
 }
 
 @Singleton
@@ -25,18 +26,22 @@ open class DefaultFeedRepository @Inject constructor(
         return appDatabase.linksFtsDao().getAll().toSet().map {
             Link(
                 id = it.id,
+                url = it.url,
+                sitename = it.sitename,
                 title = it.title,
-                value = it.value
+                imageUrl = it.imageUrl
             )
         }
     }
 
-    override fun insert(link: Link) {
+    override fun insert(link: Link, linkMetaData: LinkMetaData) {
         appDatabase.linksFtsDao().insert(
             LinkFtsEntity(
                 id = link.id,
-                title = link.title,
-                value = link.value
+                url = link.url,
+                sitename = linkMetaData.sitename,
+                title = linkMetaData.title,
+                imageUrl = linkMetaData.imageUrl
             )
         )
     }

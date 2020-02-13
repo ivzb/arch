@@ -8,11 +8,13 @@ import androidx.room.RoomDatabase
 /**
  * The [Room] database for this app.
  */
-@Database(entities = [
-    LinkFtsEntity::class
-],
+@Database(
+    entities = [
+        LinkFtsEntity::class
+    ],
     version = 1,
-    exportSchema = false)
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun linksFtsDao(): LinksFtsDao

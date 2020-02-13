@@ -28,9 +28,15 @@ data class LinkFtsEntity(
     @ColumnInfo(name = "rowid")
     val id: Int = 0,
 
-    @ColumnInfo(name = "title")
-    val title: String,
+    @ColumnInfo(name = "url")
+    val url: String,
 
-    @ColumnInfo(name = "value")
-    val value: String
+    @ColumnInfo(name = "sitename")
+    val sitename: String? = null,
+
+    @ColumnInfo(name = "title")
+    val title: String? = null,
+
+    @ColumnInfo(name = "imageUrl")
+    val imageUrl: String? = null
 )

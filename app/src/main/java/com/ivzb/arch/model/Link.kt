@@ -6,8 +6,8 @@ package com.ivzb.arch.model
  */
 data class Link(
     val id: Int = 0,
-    val title: String,
-    val value: String,
-    val hasImage: Boolean = true,
-    val imageUrl: String = "https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg"
+    val url: String,
+    val sitename: String? = null,
+    val title: String? = null,
+    val imageUrl: String? = null
 )
