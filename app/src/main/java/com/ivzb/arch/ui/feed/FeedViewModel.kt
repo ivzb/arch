@@ -26,13 +26,15 @@ import javax.inject.Inject
 class FeedViewModel @Inject constructor(
     loadLinksUseCase: LoadLinksUseCase,
     insertLinkUseCase: InsertLinkUseCase
-) : ViewModel() {
+) : ViewModel(), EventActions {
 
     val feed: LiveData<List<Any>>
 
     val errorMessage: LiveData<Event<String>>
 
     val snackBarMessage: LiveData<Event<SnackbarMessage>>
+
+    val share: MediatorLiveData<String>
 
     private val loadLinksResult = MutableLiveData<Result<List<Link>>>()
 
@@ -75,5 +77,11 @@ class FeedViewModel @Inject constructor(
                     )
             }
         }
+
+        share = MediatorLiveData()
+    }
+
+    override fun share(url: String) {
+        share.postValue(url)
     }
 }

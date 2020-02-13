@@ -10,7 +10,8 @@ import com.ivzb.arch.databinding.ItemFeedLinkBinding
 import com.ivzb.arch.model.Link
 
 class LinksViewBinder(
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val feedViewModel: FeedViewModel
 ) : FeedItemViewBinder<Link, LinkViewHolder>(
     Link::class.java
 ) {
@@ -18,7 +19,8 @@ class LinksViewBinder(
     override fun createViewHolder(parent: ViewGroup): LinkViewHolder =
         LinkViewHolder(
             ItemFeedLinkBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            lifecycleOwner
+            lifecycleOwner,
+            feedViewModel
         )
 
     override fun bindViewHolder(model: Link, viewHolder: LinkViewHolder) {
@@ -36,10 +38,12 @@ class LinksViewBinder(
 
 class LinkViewHolder(
     private val binding: ItemFeedLinkBinding,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val feedViewModel: FeedViewModel
 ) : ViewHolder(binding.root) {
 
     fun bind(link: Link) {
+        binding.eventListener = feedViewModel
         binding.link = link
         binding.lifecycleOwner = lifecycleOwner
         binding.executePendingBindings()

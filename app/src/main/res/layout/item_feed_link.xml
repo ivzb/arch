@@ -8,6 +8,10 @@
         <import type="androidx.lifecycle.LiveData" />
 
         <variable
+            name="eventListener"
+            type="com.ivzb.arch.ui.feed.EventActions" />
+
+        <variable
             name="link"
             type="com.ivzb.arch.model.Link" />
 
@@ -20,7 +24,10 @@
         android:layout_marginStart="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_small">
+        android:layout_marginBottom="@dimen/margin_small"
+        android:clickable="true"
+        android:focusable="true"
+        app:rippleColor="@color/ripple_material_light">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -55,7 +62,7 @@
                 android:textAlignment="viewStart"
                 android:textAppearance="?textAppearanceListItem"
                 app:goneUnless="@{link.title != null}"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ib_share"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Link" />
@@ -72,10 +79,22 @@
                 android:text="@{link.url}"
                 android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ib_share"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:text="@tools:sample/lorem[10]" />
+
+            <com.google.android.material.internal.CheckableImageButton
+                android:id="@+id/ib_share"
+                android:layout_width="@dimen/a11y_min_touch_target"
+                android:layout_height="@dimen/a11y_min_touch_target"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/a11y_share"
+                android:onClick="@{() -> eventListener.share(link.url)}"
+                android:src="@drawable/ic_share"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

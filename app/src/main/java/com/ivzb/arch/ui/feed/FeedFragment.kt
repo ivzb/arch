@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
@@ -78,12 +80,20 @@ class FeedFragment : MainNavigationFragment() {
         model.feed.observe(viewLifecycleOwner, Observer {
             showFeedItems(binding.recyclerView, it)
         })
+
+        model.share.observe(viewLifecycleOwner, Observer { url ->
+            ShareCompat.IntentBuilder.from(requireActivity())
+                .setType("text/plain")
+                .setText(url)
+                .setChooserTitle(R.string.a11y_share)
+                .startChooser()
+        })
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
         if (adapter == null) {
             val sectionHeaderViewBinder = FeedSectionHeaderViewBinder()
-            val linksViewBinder = LinksViewBinder(this)
+            val linksViewBinder = LinksViewBinder(this, model)
             val linksEmptyViewBinder = LinksEmptyViewBinder()
             val linksLoadingViewBinder = LinksLoadingViewBinder()
 
