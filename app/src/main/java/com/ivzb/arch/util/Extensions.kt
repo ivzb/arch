@@ -11,6 +11,7 @@ import androidx.core.os.BuildCompat
 import androidx.core.os.ParcelCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -254,4 +255,9 @@ fun <A, B, C, Result> LiveData<A>.combine(
         }
     }
     return result
+}
+
+inline fun <T : ViewDataBinding> T.executeAfter(block: T.() -> Unit) {
+    block()
+    executePendingBindings()
 }

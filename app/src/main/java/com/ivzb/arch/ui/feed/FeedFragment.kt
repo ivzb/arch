@@ -13,12 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
+import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
 import com.ivzb.arch.util.doOnApplyWindowInsets
 import com.ivzb.arch.util.setUpSnackbar
 import com.ivzb.arch.util.viewModelProvider
 import javax.inject.Inject
+
 
 class FeedFragment : MainNavigationFragment() {
 
@@ -88,6 +90,8 @@ class FeedFragment : MainNavigationFragment() {
                 .setChooserTitle(R.string.a11y_share)
                 .startChooser()
         })
+
+        openLinkOptionsDialog("youtu.be/asd")
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
@@ -109,5 +113,20 @@ class FeedFragment : MainNavigationFragment() {
             recyclerView.adapter = adapter
         }
         (recyclerView.adapter as FeedAdapter).submitList(list ?: emptyList())
+    }
+
+    private fun openLinkOptionsDialog(url: String) {
+        val args = Bundle()
+        args.putString(LinkOptionsDialogFragment.URL, url)
+
+        val linkOptionsDialogFragment = LinkOptionsDialogFragment()
+        linkOptionsDialogFragment.arguments = args
+
+        linkOptionsDialogFragment.show(requireActivity().supportFragmentManager, DIALOG_LINK_OPTIONS)
+    }
+
+    companion object {
+
+        private const val DIALOG_LINK_OPTIONS = "dialog_link_options"
     }
 }

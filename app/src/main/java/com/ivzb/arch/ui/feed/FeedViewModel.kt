@@ -8,7 +8,6 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
-import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.links.LoadLinksUseCase
 import com.ivzb.arch.domain.successOr
 import com.ivzb.arch.model.Link
@@ -24,8 +23,7 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    loadLinksUseCase: LoadLinksUseCase,
-    insertLinkUseCase: InsertLinkUseCase
+    loadLinksUseCase: LoadLinksUseCase
 ) : ViewModel(), EventActions {
 
     val feed: LiveData<List<Any>>

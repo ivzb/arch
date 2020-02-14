@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.ivzb.arch.R
 import com.ivzb.arch.databinding.NavigationHeaderBinding
+import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.util.*
 import com.ivzb.arch.widget.HashtagArchDecoration
 import com.ivzb.arch.widget.NavigationBarContentFrameLayout
@@ -25,17 +26,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity(), NavigationHost {
-
-    companion object {
-        /** Key for an int extra defining the initial navigation target. */
-        const val EXTRA_NAVIGATION_ID = "extra.NAVIGATION_ID"
-
-        private const val NAV_ID_NONE = -1
-
-        private val TOP_LEVEL_DESTINATIONS = setOf(
-            R.id.navigation_feed
-        )
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -183,5 +173,16 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
             return // user tapped the current item
         }
         navController.navigate(navId)
+    }
+
+    companion object {
+        /** Key for an int extra defining the initial navigation target. */
+        const val EXTRA_NAVIGATION_ID = "extra.NAVIGATION_ID"
+
+        private const val NAV_ID_NONE = -1
+
+        private val TOP_LEVEL_DESTINATIONS = setOf(
+            R.id.navigation_feed
+        )
     }
 }
