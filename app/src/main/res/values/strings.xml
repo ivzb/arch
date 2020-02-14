@@ -21,6 +21,7 @@
     <string name="feed_loading_error">Could not load feed. Try again later.</string>
     <string name="feed_links_title">Links</string>
 
+    <string name="a11y_copy">Copy</string>
     <string name="a11y_share">Share</string>
     <string name="a11y_delete">Delete</string>
 

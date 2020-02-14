@@ -1,13 +1,12 @@
 package com.ivzb.arch.ui.link
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
+import androidx.core.app.ShareCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ivzb.arch.R
@@ -51,25 +50,19 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
         super.onActivityCreated(savedInstanceState)
         linkOptionsViewModel = viewModelProvider(viewModelFactory)
 
-        linkOptionsViewModel.setUrl(arguments?.getString(URL) ?: getString(R.string.link_options))
+        val url = arguments?.getString(URL) ?: ""
+        linkOptionsViewModel.setUrl(url)
 
-//        linkOptionsViewModel.performSignInEvent.observe(this, EventObserver { request ->
-//            if (request == RequestSignIn) {
-//                activity?.let { activity ->
-//                    val signInIntent = signInHandler.makeSignInIntent()
-//                    val observer = object : Observer<Intent?> {
-//                        override fun onChanged(it: Intent?) {
-//                            activity.startActivityForResult(it,
-//                                REQUEST_CODE_SIGN_IN
-//                            )
-//                            signInIntent.removeObserver(this)
-//                        }
-//                    }
-//                    signInIntent.observeForever(observer)
-//                }
-//                dismiss()
-//            }
-//        })
+        linkOptionsViewModel.performLinkOptionEvent.observe(this, EventObserver { request ->
+            when (request) {
+                LinkOptionsEvent.Copy -> copy(url)
+                LinkOptionsEvent.Share -> share(url)
+                LinkOptionsEvent.Delete -> delete(url)
+                LinkOptionsEvent.Visit -> visit(url)
+            }
+
+            dismiss()
+        })
 
         binding.executeAfter {
             viewModel = linkOptionsViewModel
@@ -79,6 +72,26 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
         if (showsDialog) {
             (requireDialog() as AlertDialog).setView(binding.root)
         }
+    }
+
+    private fun copy(url: String) {
+        // TODO
+    }
+
+    private fun share(url: String) {
+        ShareCompat.IntentBuilder.from(requireActivity())
+            .setType("text/plain")
+            .setText(url)
+            .setChooserTitle(R.string.a11y_share)
+            .startChooser()
+    }
+
+    private fun delete(url: String) {
+        // TODO
+    }
+
+    private fun visit(url: String) {
+        // do nothing
     }
 
     companion object {

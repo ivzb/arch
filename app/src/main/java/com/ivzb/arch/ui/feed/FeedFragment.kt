@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
+import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
@@ -20,7 +19,6 @@ import com.ivzb.arch.util.doOnApplyWindowInsets
 import com.ivzb.arch.util.setUpSnackbar
 import com.ivzb.arch.util.viewModelProvider
 import javax.inject.Inject
-
 
 class FeedFragment : MainNavigationFragment() {
 
@@ -83,15 +81,9 @@ class FeedFragment : MainNavigationFragment() {
             showFeedItems(binding.recyclerView, it)
         })
 
-        model.share.observe(viewLifecycleOwner, Observer { url ->
-            ShareCompat.IntentBuilder.from(requireActivity())
-                .setType("text/plain")
-                .setText(url)
-                .setChooserTitle(R.string.a11y_share)
-                .startChooser()
+        model.performClickEvent.observe(viewLifecycleOwner, EventObserver { url ->
+            openLinkOptionsDialog(url)
         })
-
-        openLinkOptionsDialog("youtu.be/asd")
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {

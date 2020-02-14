@@ -32,9 +32,9 @@ class FeedViewModel @Inject constructor(
 
     val snackBarMessage: LiveData<Event<SnackbarMessage>>
 
-    val share: MediatorLiveData<String>
-
     private val loadLinksResult = MutableLiveData<Result<List<Link>>>()
+
+    val performClickEvent: MutableLiveData<Event<String>> = MutableLiveData()
 
     init {
         loadLinksUseCase(Unit, loadLinksResult)
@@ -75,11 +75,9 @@ class FeedViewModel @Inject constructor(
                     )
             }
         }
-
-        share = MediatorLiveData()
     }
 
-    override fun share(url: String) {
-        share.postValue(url)
+    override fun click(url: String) {
+        performClickEvent.postValue(Event(url))
     }
 }
