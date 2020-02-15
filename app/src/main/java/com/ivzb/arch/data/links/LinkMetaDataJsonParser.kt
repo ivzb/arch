@@ -11,7 +11,7 @@ object LinkMetaDataJsonParser {
 
     @Throws(IOException::class)
     fun fetch(url: String): LinkMetaData {
-        val metaData = LinkMetaData()
+        val metaData = LinkMetaData(url = url)
 
         val doc = Jsoup.connect(url)
             .timeout(5 * 1000)
@@ -41,7 +41,7 @@ object LinkMetaDataJsonParser {
             description = ""
         }
 
-        metaData.description = description ?: ""
+        metaData.description = description
 
         //getImages
         val imageElements = doc.select("meta[property=og:image]")
@@ -72,28 +72,10 @@ object LinkMetaDataJsonParser {
         for (element in elements) {
             if (element.hasAttr("property")) {
                 val str_property = element.attr("property").toString().trim { it <= ' ' }
-                if (str_property == "og:url") {
-                    metaData.url = element.attr("content").toString()
-                }
 
                 if (str_property == "og:site_name") {
                     metaData.sitename = element.attr("content").toString()
                 }
-            }
-        }
-
-        if (metaData.url == null || metaData.url.equals("") || metaData.url!!.isEmpty()) {
-            var uri: URI? = null
-            try {
-                uri = URI(url)
-            } catch (e: URISyntaxException) {
-                e.printStackTrace()
-            }
-
-            if (url == null) {
-                metaData.url = url
-            } else {
-                metaData.url = uri!!.host
             }
         }
 

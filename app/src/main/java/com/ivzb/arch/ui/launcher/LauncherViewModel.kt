@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.links.InsertLinkUseCase
+import com.ivzb.arch.domain.links.FetchLinkMetaDataUseCase
 import com.ivzb.arch.domain.prefs.OnboardingCompletedUseCase
 import com.ivzb.arch.model.Link
 import com.ivzb.arch.util.map
@@ -16,14 +17,13 @@ import javax.inject.Inject
  * Logic for determining which screen to send users to on app launch.
  */
 class LaunchViewModel @Inject constructor(
-    val onboardingCompletedUseCase: OnboardingCompletedUseCase,
-    val insertLinkUseCase: InsertLinkUseCase
+    onboardingCompletedUseCase: OnboardingCompletedUseCase,
+    val insertLinkUseCase: InsertLinkUseCase,
+    val fetchLinkMetaDataUseCase: FetchLinkMetaDataUseCase
 ) : ViewModel() {
 
-    private val insertLinkCompletedResult = MutableLiveData<Result<Boolean>>()
     private val onboardingCompletedResult = MutableLiveData<Result<Boolean>>()
 
-    val linkInserted: LiveData<Event<Boolean>>
     val launchDestination: LiveData<Event<LaunchDestination>>
 
     init {
@@ -36,20 +36,17 @@ class LaunchViewModel @Inject constructor(
             }
         }
 
-        linkInserted = insertLinkCompletedResult.map {
-            Event(true)
-        }
+        // Check if onboarding has already been completed and then navigate the user accordingly
+        onboardingCompletedUseCase(Unit, onboardingCompletedResult)
     }
 
     fun handleLink(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            insertLinkUseCase(Link(url = it), insertLinkCompletedResult)
+            Link(url = it).let {
+                insertLinkUseCase(it)
+                fetchLinkMetaDataUseCase(it)
+            }
         }
-    }
-
-    fun proceed() {
-        // Check if onboarding has already been completed and then navigate the user accordingly
-        onboardingCompletedUseCase(Unit, onboardingCompletedResult)
     }
 }
 

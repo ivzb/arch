@@ -8,8 +8,7 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
-import com.ivzb.arch.domain.links.DeleteLinkUseCase
-import com.ivzb.arch.domain.links.LoadLinksUseCase
+import com.ivzb.arch.domain.links.ObserveLinksUseCase
 import com.ivzb.arch.domain.successOr
 import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.SectionHeader
@@ -24,8 +23,7 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    val loadLinksUseCase: LoadLinksUseCase,
-    val deleteLinkUseCase: DeleteLinkUseCase
+    private val observeLinksUseCase: ObserveLinksUseCase
 ) : ViewModel(), EventActions {
 
     val feed: LiveData<List<Any>>
@@ -36,14 +34,12 @@ class FeedViewModel @Inject constructor(
 
     val performClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
-    val deleteLinkResult = MutableLiveData<Result<Unit>>()
-
-    private val loadLinksResult = MutableLiveData<Result<List<Link>>>()
+    private val linksResult by lazy(LazyThreadSafetyMode.NONE) {
+        observeLinksUseCase.observe()
+    }
 
     init {
-        loadLinks()
-
-        val links: LiveData<List<Any>> = loadLinksResult.map {
+        val links = linksResult.map {
             if (it is Loading) {
                 listOf(LoadingIndicator)
             } else {
@@ -53,7 +49,6 @@ class FeedViewModel @Inject constructor(
         }
 
         // Compose feed
-
         feed = MutableLiveData(mutableListOf(SectionHeader(R.string.feed_links_title)))
             .combine(links) { header, linkItems ->
                 val feedItems = mutableListOf<Any>()
@@ -62,13 +57,13 @@ class FeedViewModel @Inject constructor(
                     .plus(linkItems)
             }
 
-        errorMessage = loadLinksResult.map {
+        errorMessage = linksResult.map {
             Event(content = (it as? Result.Error)?.exception?.message ?: "")
         }
 
         // Show an error message if the feed could not be loaded.
         snackBarMessage = MediatorLiveData()
-        snackBarMessage.addSource(loadLinksResult) {
+        snackBarMessage.addSource(linksResult) {
             if (it is Result.Error) {
                 snackBarMessage.value =
                     Event(
@@ -79,17 +74,12 @@ class FeedViewModel @Inject constructor(
                     )
             }
         }
+
+        // Observe updates for links
+        observeLinksUseCase.execute(Unit)
     }
 
     override fun click(link: Link) {
         performClickEvent.postValue(Event(link))
-    }
-
-    fun loadLinks() {
-        loadLinksUseCase(Unit, loadLinksResult)
-    }
-
-    fun deleteLink(link: Link) {
-        deleteLinkUseCase(link, deleteLinkResult)
     }
 }

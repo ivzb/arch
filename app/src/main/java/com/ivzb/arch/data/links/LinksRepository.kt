@@ -1,5 +1,8 @@
 package com.ivzb.arch.data.links
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.db.LinkFtsEntity
 import com.ivzb.arch.model.Link
@@ -12,9 +15,11 @@ import javax.inject.Singleton
  */
 interface LinksRepository {
 
-    fun getAll(): List<Link>
+    fun observeAll(): LiveData<List<Link>>
 
-    fun insert(link: Link, linkMetaData: LinkMetaData)
+    fun insert(link: Link)
+
+    fun update(linkMetaData: LinkMetaData)
 
     fun delete(id: Int)
 }
@@ -24,27 +29,39 @@ open class DefaultFeedRepository @Inject constructor(
     private val appDatabase: AppDatabase
 ) : LinksRepository {
 
-    override fun getAll(): List<Link> {
-        return appDatabase.linksFtsDao().getAll().toSet().map {
-            Link(
-                id = it.id,
-                url = it.url,
-                sitename = it.sitename,
-                title = it.title,
-                imageUrl = it.imageUrl
-            )
+    override fun observeAll(): LiveData<List<Link>> {
+        return Transformations.map(
+            appDatabase.linksFtsDao().observeAll()
+        ) {
+            it
+                .toSet()
+                .map {
+                    Link(
+                        id = it.id,
+                        url = it.url,
+                        sitename = it.sitename,
+                        title = it.title,
+                        imageUrl = it.imageUrl
+                    )
+                }
         }
     }
 
-    override fun insert(link: Link, linkMetaData: LinkMetaData) {
+    override fun insert(link: Link) {
         appDatabase.linksFtsDao().insert(
             LinkFtsEntity(
                 id = link.id,
-                url = link.url,
-                sitename = linkMetaData.sitename,
-                title = linkMetaData.title,
-                imageUrl = linkMetaData.imageUrl
+                url = link.url
             )
+        )
+    }
+
+    override fun update(linkMetaData: LinkMetaData) {
+        appDatabase.linksFtsDao().update(
+            linkMetaData.url,
+            linkMetaData.sitename,
+            linkMetaData.title,
+            linkMetaData.imageUrl
         )
     }
 

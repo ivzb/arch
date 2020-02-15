@@ -20,6 +20,7 @@ import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
 import com.ivzb.arch.util.doOnApplyWindowInsets
 import com.ivzb.arch.util.setUpSnackbar
+import com.ivzb.arch.util.updateForTheme
 import com.ivzb.arch.util.viewModelProvider
 import javax.inject.Inject
 
@@ -87,20 +88,6 @@ class FeedFragment : MainNavigationFragment() {
         model.performClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
             openLinkOptionsDialog(link)
         })
-
-        model.deleteLinkResult.observe(viewLifecycleOwner, Observer {
-            model.loadLinks()
-        })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CODE_LINK_OPTIONS && resultCode == Activity.RESULT_OK) {
-            val link = data?.getParcelableExtra<Link>(LinkOptionsDialogFragment.LINK) ?: throw IllegalArgumentException("missing link result")
-
-            model.deleteLink(link)
-        }
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
@@ -132,8 +119,6 @@ class FeedFragment : MainNavigationFragment() {
                 putParcelable(LinkOptionsDialogFragment.LINK, link)
             }
 
-            setTargetFragment(this@FeedFragment, REQUEST_CODE_LINK_OPTIONS)
-
             show(this@FeedFragment.parentFragmentManager, DIALOG_LINK_OPTIONS)
         }
     }
@@ -141,7 +126,5 @@ class FeedFragment : MainNavigationFragment() {
     companion object {
 
         private const val DIALOG_LINK_OPTIONS = "dialog_link_options"
-
-        private const val REQUEST_CODE_LINK_OPTIONS = 1
     }
 }
