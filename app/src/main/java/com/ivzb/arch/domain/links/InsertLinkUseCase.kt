@@ -4,7 +4,6 @@ import com.ivzb.arch.data.links.LinkMetaDataDataSource
 import com.ivzb.arch.data.links.LinksRepository
 import com.ivzb.arch.domain.UseCase
 import com.ivzb.arch.model.Link
-import com.ivzb.arch.model.LinkMetaData
 import javax.inject.Inject
 
 /**

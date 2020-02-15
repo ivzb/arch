@@ -15,6 +15,8 @@ interface LinksRepository {
     fun getAll(): List<Link>
 
     fun insert(link: Link, linkMetaData: LinkMetaData)
+
+    fun delete(id: Int)
 }
 
 @Singleton
@@ -44,5 +46,9 @@ open class DefaultFeedRepository @Inject constructor(
                 imageUrl = linkMetaData.imageUrl
             )
         )
+    }
+
+    override fun delete(linkId: Int) {
+        appDatabase.linksFtsDao().delete(linkId)
     }
 }

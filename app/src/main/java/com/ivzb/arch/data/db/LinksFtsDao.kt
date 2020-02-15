@@ -1,10 +1,7 @@
 package com.ivzb.arch.data.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * The Data Access Object for the [LinkFtsEntity] class.
@@ -20,4 +17,7 @@ interface LinksFtsDao {
 
     @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts ORDER BY rowid DESC")
     fun getAll(): List<LinkFtsEntity>
+
+    @Query("DELETE FROM linkFts WHERE rowid = :linkId")
+    fun delete(linkId: Int)
 }

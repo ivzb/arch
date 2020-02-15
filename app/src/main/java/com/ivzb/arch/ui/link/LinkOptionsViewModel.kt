@@ -3,6 +3,8 @@ package com.ivzb.arch.ui.link
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
+import com.ivzb.arch.domain.links.DeleteLinkUseCase
+import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.model.Link
 import javax.inject.Inject
 

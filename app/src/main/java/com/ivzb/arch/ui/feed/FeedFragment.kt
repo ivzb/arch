@@ -1,5 +1,7 @@
 package com.ivzb.arch.ui.feed
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -85,6 +87,20 @@ class FeedFragment : MainNavigationFragment() {
         model.performClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
             openLinkOptionsDialog(link)
         })
+
+        model.deleteLinkResult.observe(viewLifecycleOwner, Observer {
+            model.loadLinks()
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_LINK_OPTIONS && resultCode == Activity.RESULT_OK) {
+            val link = data?.getParcelableExtra<Link>(LinkOptionsDialogFragment.LINK) ?: throw IllegalArgumentException("missing link result")
+
+            model.deleteLink(link)
+        }
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
@@ -102,24 +118,30 @@ class FeedFragment : MainNavigationFragment() {
 
             adapter = FeedAdapter(viewBinders)
         }
+
         if (recyclerView.adapter == null) {
             recyclerView.adapter = adapter
         }
+
         (recyclerView.adapter as FeedAdapter).submitList(list ?: emptyList())
     }
 
     private fun openLinkOptionsDialog(link: Link) {
-        val args = Bundle()
-        args.putParcelable(LinkOptionsDialogFragment.LINK, link)
+        LinkOptionsDialogFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(LinkOptionsDialogFragment.LINK, link)
+            }
 
-        val linkOptionsDialogFragment = LinkOptionsDialogFragment()
-        linkOptionsDialogFragment.arguments = args
+            setTargetFragment(this@FeedFragment, REQUEST_CODE_LINK_OPTIONS)
 
-        linkOptionsDialogFragment.show(requireActivity().supportFragmentManager, DIALOG_LINK_OPTIONS)
+            show(this@FeedFragment.parentFragmentManager, DIALOG_LINK_OPTIONS)
+        }
     }
 
     companion object {
 
         private const val DIALOG_LINK_OPTIONS = "dialog_link_options"
+
+        private const val REQUEST_CODE_LINK_OPTIONS = 1
     }
 }

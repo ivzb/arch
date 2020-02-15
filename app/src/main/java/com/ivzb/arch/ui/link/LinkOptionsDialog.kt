@@ -1,9 +1,11 @@
 package com.ivzb.arch.ui.link
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,8 @@ import com.ivzb.arch.model.Link
 import com.ivzb.arch.util.executeAfter
 import com.ivzb.arch.util.viewModelProvider
 import dagger.android.support.DaggerAppCompatDialogFragment
+import java.lang.Exception
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 /**
@@ -63,7 +67,13 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
             when (request) {
                 LinkOptionsEvent.Copy -> copy(link.title ?: "Link you copied", link.url)
                 LinkOptionsEvent.Share -> share(link.url)
-                LinkOptionsEvent.Delete -> delete(link.id)
+                LinkOptionsEvent.Delete -> {
+                    val intent = Intent().apply {
+                        putExtra(LINK, link)
+                    }
+
+                    targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent) ?: throw IllegalStateException("target fragment not found")
+                }
                 LinkOptionsEvent.Visit -> visit()
             }
 
@@ -94,10 +104,6 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
             .setText(url)
             .setChooserTitle(R.string.a11y_share)
             .startChooser()
-    }
-
-    private fun delete(id: Int) {
-        // TODO
     }
 
     private fun visit() {
