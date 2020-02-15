@@ -1,15 +1,11 @@
 package com.ivzb.arch.ui.launcher
 
 import android.content.Intent
-import android.net.Uri
-import android.os.Parcelable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
-import com.ivzb.arch.domain.internal.DefaultScheduler
 import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.prefs.OnboardingCompletedUseCase
 import com.ivzb.arch.model.Link

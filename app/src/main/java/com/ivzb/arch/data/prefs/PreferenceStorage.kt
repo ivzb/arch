@@ -22,6 +22,7 @@ interface PreferenceStorage {
     var snackbarIsStopped: Boolean
     var observableSnackbarIsStopped: LiveData<Boolean>
     var selectedTheme: String?
+    var observableSelectedTheme: LiveData<String>
 }
 
 /**
@@ -62,6 +63,13 @@ class SharedPreferenceStorage @Inject constructor(context: Context) : Preference
     override var selectedTheme by StringPreference(
         prefs, PREF_DARK_MODE_ENABLED, Theme.SYSTEM.storageKey
     )
+
+    override var observableSelectedTheme: LiveData<String>
+        get() {
+            observableSelectedThemeResult.value = selectedTheme
+            return observableSelectedThemeResult
+        }
+        set(_) = throw IllegalAccessException("This property can't be changed")
 
     companion object {
         const val PREFS_NAME = "arch"

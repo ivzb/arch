@@ -10,4 +10,10 @@
         android:name="com.ivzb.arch.ui.feed.FeedFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_feed" />
+
+    <fragment
+        android:id="@id/navigation_settings"
+        android:name="com.ivzb.arch.ui.settings.SettingsFragment"
+        android:label="@string/settings_title"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

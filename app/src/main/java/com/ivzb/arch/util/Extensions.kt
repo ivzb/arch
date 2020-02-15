@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.BuildCompat
 import androidx.core.os.ParcelCompat
@@ -19,6 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.*
 import com.ivzb.arch.BuildConfig
+import com.ivzb.arch.model.Theme
 import com.ivzb.arch.ui.main.MainActivityViewModel
 
 /** Convenience for callbacks/listeners whose return value indicates an event was consumed. */
@@ -260,4 +263,15 @@ fun <A, B, C, Result> LiveData<A>.combine(
 inline fun <T : ViewDataBinding> T.executeAfter(block: T.() -> Unit) {
     block()
     executePendingBindings()
+}
+
+/**
+ * Having to suppress lint. Bug raised: 128789886
+ */
+@SuppressLint("WrongConstant")
+fun AppCompatActivity.updateForTheme(theme: Theme) = when (theme) {
+    Theme.DARK -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+    Theme.LIGHT -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
+    Theme.SYSTEM -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    Theme.BATTERY_SAVER -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 }

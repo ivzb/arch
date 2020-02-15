@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">arch</string>
+    <string name="version_name">Version %s</string>
 
     <string name="title_home">Home</string>
 
@@ -14,7 +15,13 @@
     <string name="onboarding_welcome_to_arch">Welcome to Arch</string>
     <string name="description_message">Save your links</string>
 
+    <!-- Settings -->
     <string name="settings_title">Settings</string>
+    <string name="settings_theme_title">Choose theme</string>
+    <string name="settings_theme_system">System default</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_battery">Set by Battery Saver</string>
 
     <!-- Feed -->
     <string name="feed_not_available">Nothing saved yet.</string>

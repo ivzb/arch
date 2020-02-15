@@ -1,6 +1,5 @@
 package com.ivzb.arch.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -8,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.ivzb.arch.R
 import com.ivzb.arch.databinding.NavigationHeaderBinding
-import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.util.*
 import com.ivzb.arch.widget.HashtagArchDecoration
 import com.ivzb.arch.widget.NavigationBarContentFrameLayout
@@ -48,7 +47,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
 
         viewModel = viewModelProvider(viewModelFactory)
         // Update for Dark Mode straight away
-//        updateForTheme(viewModel.currentTheme)
+        updateForTheme(viewModel.currentTheme)
 
         setContentView(R.layout.activity_main)
 
@@ -127,7 +126,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
             navigateTo(initialNavId)
         }
 
-//        viewModel.theme.observe(this, Observer(::updateForTheme))
+        viewModel.theme.observe(this, Observer(::updateForTheme))
     }
 
     override fun registerToolbarWithNavigation(toolbar: Toolbar) {
@@ -182,7 +181,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         private const val NAV_ID_NONE = -1
 
         private val TOP_LEVEL_DESTINATIONS = setOf(
-            R.id.navigation_feed
+            R.id.navigation_feed,
+            R.id.navigation_settings
         )
     }
 }

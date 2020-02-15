@@ -103,4 +103,29 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!-- Settings -->
+    <style name="Widget.Arch.Settings" />
+
+    <style name="Widget.Arch.Settings.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="android:background">@null</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeightSmall</item>
+        <item name="android:padding">@dimen/margin_normal</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="switchPadding">@dimen/margin_small</item>
+        <item name="switchTextAppearance">?attr/textAppearanceBody2</item>
+    </style>
+
+    <style name="Widget.Arch.Settings.Button">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:minHeight">?listPreferredItemHeightSmall</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">?listPreferredItemPaddingEnd</item>
+        <item name="android:paddingStart">?listPreferredItemPaddingStart</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAppearance">?textAppearanceBody2</item>
+    </style>
 </resources>

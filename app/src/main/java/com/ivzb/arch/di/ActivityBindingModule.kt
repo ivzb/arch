@@ -7,6 +7,7 @@ import com.ivzb.arch.ui.main.MainActivity
 import com.ivzb.arch.ui.main.MainActivityModule
 import com.ivzb.arch.ui.onboarding.OnboardingActivity
 import com.ivzb.arch.ui.onboarding.OnboardingModule
+import com.ivzb.arch.ui.settings.SettingsModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -32,12 +33,15 @@ abstract class ActivityBindingModule {
     internal abstract fun onboardingActivity(): OnboardingActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [
-        // activity
-        MainActivityModule::class,
+    @ContributesAndroidInjector(
+        modules = [
+            // activity
+            MainActivityModule::class,
 
-        // fragments
-        FeedModule::class
-    ])
+            // fragments
+            FeedModule::class,
+            SettingsModule::class
+        ]
+    )
     internal abstract fun mainActivity(): MainActivity
 }

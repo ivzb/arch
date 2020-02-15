@@ -1,6 +1,7 @@
 package com.ivzb.arch.di
 
 import com.ivzb.arch.MainApplication
+import com.ivzb.arch.ui.theme.ThemedActivityDelegateModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -21,7 +22,8 @@ import javax.inject.Singleton
         AppModule::class,
         ActivityBindingModule::class,
         ViewModelModule::class,
-        DataModule::class
+        DataModule::class,
+        ThemedActivityDelegateModule::class
     ]
 )
 interface AppComponent : AndroidInjector<MainApplication> {

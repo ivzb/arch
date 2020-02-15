@@ -9,6 +9,7 @@ import com.ivzb.arch.domain.internal.Scheduler
  * Executes business logic synchronously or asynchronously using a [Scheduler].
  */
 abstract class UseCase<in P, R> {
+
     protected var taskScheduler: Scheduler = DefaultScheduler
 
     /** Executes the use case asynchronously and places the [Result] in a MutableLiveData
