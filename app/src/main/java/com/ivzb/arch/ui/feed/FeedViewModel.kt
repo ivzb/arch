@@ -34,7 +34,7 @@ class FeedViewModel @Inject constructor(
 
     private val loadLinksResult = MutableLiveData<Result<List<Link>>>()
 
-    val performClickEvent: MutableLiveData<Event<String>> = MutableLiveData()
+    val performClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
     init {
         loadLinksUseCase(Unit, loadLinksResult)
@@ -77,7 +77,7 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    override fun click(url: String) {
-        performClickEvent.postValue(Event(url))
+    override fun click(link: Link) {
+        performClickEvent.postValue(Event(link))
     }
 }

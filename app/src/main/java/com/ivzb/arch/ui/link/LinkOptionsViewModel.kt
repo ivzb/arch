@@ -3,6 +3,7 @@ package com.ivzb.arch.ui.link
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.Event
+import com.ivzb.arch.model.Link
 import javax.inject.Inject
 
 enum class LinkOptionsEvent {
@@ -14,12 +15,12 @@ enum class LinkOptionsEvent {
  */
 class LinkOptionsViewModel @Inject constructor() : ViewModel() {
 
-    val url = MutableLiveData<String>()
+    val link = MutableLiveData<Link>()
 
     val performLinkOptionEvent: MutableLiveData<Event<LinkOptionsEvent>> = MutableLiveData()
 
-    fun setUrl(value: String) {
-        url.value = value
+    fun setLink(value: Link) {
+        link.value = value
     }
 
     fun visit() {

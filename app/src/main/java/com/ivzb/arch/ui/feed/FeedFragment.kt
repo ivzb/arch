@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
+import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
@@ -81,8 +82,8 @@ class FeedFragment : MainNavigationFragment() {
             showFeedItems(binding.recyclerView, it)
         })
 
-        model.performClickEvent.observe(viewLifecycleOwner, EventObserver { url ->
-            openLinkOptionsDialog(url)
+        model.performClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
+            openLinkOptionsDialog(link)
         })
     }
 
@@ -107,9 +108,9 @@ class FeedFragment : MainNavigationFragment() {
         (recyclerView.adapter as FeedAdapter).submitList(list ?: emptyList())
     }
 
-    private fun openLinkOptionsDialog(url: String) {
+    private fun openLinkOptionsDialog(link: Link) {
         val args = Bundle()
-        args.putString(LinkOptionsDialogFragment.URL, url)
+        args.putParcelable(LinkOptionsDialogFragment.LINK, link)
 
         val linkOptionsDialogFragment = LinkOptionsDialogFragment()
         linkOptionsDialogFragment.arguments = args

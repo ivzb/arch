@@ -40,7 +40,7 @@
             android:onClick="@{() -> viewModel.visit()}"
             android:paddingTop="@dimen/margin_normal"
             android:paddingBottom="@dimen/margin_normal"
-            android:text="@{ viewModel.url }"
+            android:text="@{ viewModel.link.url }"
             android:textAppearance="@style/TextAppearance.Arch.Dialog.Label"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="parent"
