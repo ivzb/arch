@@ -24,17 +24,9 @@ class LauncherActivity : DaggerAppCompatActivity() {
 
         val viewModel: LaunchViewModel = viewModelProvider(viewModelFactory)
 
-        when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    viewModel.handleLink(intent)
-                }
-            }
-        }
-
         viewModel.launchDestination.observe(this, EventObserver { destination ->
             when (destination) {
-                LaunchDestination.MAIN_ACTIVITY -> startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                LaunchDestination.MAIN_ACTIVITY -> startActivity(Intent(this, MainActivity::class.java))
                 LaunchDestination.ONBOARDING -> startActivity(Intent(this, OnboardingActivity::class.java))
             }.checkAllMatched
 

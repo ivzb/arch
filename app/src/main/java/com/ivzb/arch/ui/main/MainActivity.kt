@@ -1,5 +1,6 @@
 package com.ivzb.arch.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -46,8 +47,11 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
 
         viewModel = viewModelProvider(viewModelFactory)
+
         // Update for Dark Mode straight away
         updateForTheme(viewModel.currentTheme)
+
+        handleIntent(intent)
 
         setContentView(R.layout.activity_main)
 
@@ -139,6 +143,12 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         currentNavId = navigation.checkedItem?.itemId ?: NAV_ID_NONE
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        handleIntent(intent)
+    }
+
     override fun onBackPressed() {
         /**
          * If the drawer is open, the behavior changes based on the API level.
@@ -152,13 +162,23 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         }
     }
 
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        getCurrentFragment()?.onUserInteraction()
+    }
+
     private fun closeDrawer() {
         drawer.closeDrawer(GravityCompat.START)
     }
 
-    override fun onUserInteraction() {
-        super.onUserInteraction()
-        getCurrentFragment()?.onUserInteraction()
+    private fun handleIntent(intent: Intent?) {
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    viewModel.handleLink(intent)
+                }
+            }
+        }
     }
 
     private fun getCurrentFragment(): MainNavigationFragment? {
@@ -171,6 +191,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         if (navId == currentNavId) {
             return // user tapped the current item
         }
+
         navController.navigate(navId)
     }
 

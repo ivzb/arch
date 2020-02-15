@@ -17,9 +17,7 @@ import javax.inject.Inject
  * Logic for determining which screen to send users to on app launch.
  */
 class LaunchViewModel @Inject constructor(
-    onboardingCompletedUseCase: OnboardingCompletedUseCase,
-    val insertLinkUseCase: InsertLinkUseCase,
-    val fetchLinkMetaDataUseCase: FetchLinkMetaDataUseCase
+    onboardingCompletedUseCase: OnboardingCompletedUseCase
 ) : ViewModel() {
 
     private val onboardingCompletedResult = MutableLiveData<Result<Boolean>>()
@@ -38,15 +36,6 @@ class LaunchViewModel @Inject constructor(
 
         // Check if onboarding has already been completed and then navigate the user accordingly
         onboardingCompletedUseCase(Unit, onboardingCompletedResult)
-    }
-
-    fun handleLink(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            Link(url = it).let {
-                insertLinkUseCase(it)
-                fetchLinkMetaDataUseCase(it)
-            }
-        }
     }
 }
 
