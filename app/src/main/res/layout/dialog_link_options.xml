@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,38 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="?dialogPreferredPadding" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="?dialogPreferredPadding" />
-
         <TextView
             android:id="@+id/tv_url"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             android:autoLink="web"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:lines="1"
+            android:maxLines="1"
             android:minHeight="@dimen/profile_dialog_header_height"
             android:onClick="@{() -> viewModel.visit()}"
             android:paddingTop="@dimen/margin_normal"
             android:paddingBottom="@dimen/margin_normal"
+            android:singleLine="true"
             android:text="@{ viewModel.link.url }"
             android:textAppearance="@style/TextAppearance.Arch.Dialog.Label"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="https://stackoverflow.blog/2020/02/13/ben-popper-is-the-worst-coder-in-the-world-something-awry-with-my-array/?cb=1" />
 
         <View
             android:id="@+id/v_divider1"
@@ -60,9 +51,9 @@
             style="@style/Widget.Arch.Dialog.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
             android:drawableStart="@drawable/ic_copy"
             android:onClick="@{() -> viewModel.copy()}"
+            android:padding="@dimen/margin_normal_big"
             android:text="@string/a11y_copy"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +63,6 @@
             android:id="@+id/v_divider2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
             android:background="@drawable/list_divider"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -83,9 +73,9 @@
             style="@style/Widget.Arch.Dialog.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
             android:drawableStart="@drawable/ic_share"
             android:onClick="@{() -> viewModel.share()}"
+            android:padding="@dimen/margin_normal_big"
             android:text="@string/a11y_share"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +85,6 @@
             android:id="@+id/v_divider3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
             android:background="@drawable/list_divider"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -106,10 +95,9 @@
             style="@style/Widget.Arch.Dialog.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
             android:drawableStart="@drawable/ic_delete"
             android:onClick="@{() -> viewModel.delete()}"
+            android:padding="@dimen/margin_normal_big"
             android:text="@string/a11y_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
