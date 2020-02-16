@@ -2,6 +2,7 @@ package com.ivzb.arch.util
 
 import android.annotation.SuppressLint
 import android.os.Parcel
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -144,8 +145,10 @@ fun exceptionInDebug(t: Throwable) {
     }
 }
 
-private fun createStateForView(view: View) = ViewPaddingState(view.paddingLeft,
-    view.paddingTop, view.paddingRight, view.paddingBottom, view.paddingStart, view.paddingEnd)
+private fun createStateForView(view: View) = ViewPaddingState(
+    view.paddingLeft,
+    view.paddingTop, view.paddingRight, view.paddingBottom, view.paddingStart, view.paddingEnd
+)
 
 data class ViewPaddingState(
     val left: Int,
@@ -275,3 +278,9 @@ fun AppCompatActivity.updateForTheme(theme: Theme) = when (theme) {
     Theme.SYSTEM -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     Theme.BATTERY_SAVER -> delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 }
+
+fun extractUrl(input: String) =
+    input
+        .split(" ")
+        .firstOrNull { Patterns.WEB_URL.matcher(it).find() }
+        ?: input

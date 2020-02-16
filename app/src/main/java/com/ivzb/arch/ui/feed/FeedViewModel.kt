@@ -8,12 +8,15 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
+import com.ivzb.arch.domain.links.FetchLinkMetaDataUseCase
+import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.links.ObserveLinksUseCase
 import com.ivzb.arch.domain.successOr
 import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.SectionHeader
 import com.ivzb.arch.util.SnackbarMessage
 import com.ivzb.arch.util.combine
+import com.ivzb.arch.util.extractUrl
 import com.ivzb.arch.util.map
 import javax.inject.Inject
 
@@ -23,7 +26,9 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
-    private val observeLinksUseCase: ObserveLinksUseCase
+    private val observeLinksUseCase: ObserveLinksUseCase,
+    private val insertLinkUseCase: InsertLinkUseCase,
+    private val fetchLinkMetaDataUseCase: FetchLinkMetaDataUseCase
 ) : ViewModel(), EventActions {
 
     val feed: LiveData<List<Any>>
@@ -32,7 +37,7 @@ class FeedViewModel @Inject constructor(
 
     val snackBarMessage: LiveData<Event<SnackbarMessage>>
 
-    val performClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
+    val performLinkClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
     private val linksResult by lazy(LazyThreadSafetyMode.NONE) {
         observeLinksUseCase.observe()
@@ -80,6 +85,13 @@ class FeedViewModel @Inject constructor(
     }
 
     override fun click(link: Link) {
-        performClickEvent.postValue(Event(link))
+        performLinkClickEvent.postValue(Event(link))
+    }
+
+    fun addLink(value: String) {
+        Link(url = extractUrl(value)).let {
+            insertLinkUseCase(it)
+            fetchLinkMetaDataUseCase(it)
+        }
     }
 }

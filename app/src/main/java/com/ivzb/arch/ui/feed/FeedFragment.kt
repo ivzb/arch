@@ -1,7 +1,8 @@
 package com.ivzb.arch.ui.feed
 
-import android.app.Activity
-import android.content.Intent
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,6 @@ import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
 import com.ivzb.arch.util.doOnApplyWindowInsets
 import com.ivzb.arch.util.setUpSnackbar
-import com.ivzb.arch.util.updateForTheme
 import com.ivzb.arch.util.viewModelProvider
 import javax.inject.Inject
 
@@ -56,15 +56,7 @@ class FeedFragment : MainNavigationFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.root.doOnApplyWindowInsets { _, insets, _ ->
-            binding.statusBar.run {
-                layoutParams.height = insets.systemWindowInsetTop
-                isVisible = layoutParams.height > 0
-                requestLayout()
-            }
-        }
-
-        binding.recyclerView.doOnApplyWindowInsets { v, insets, padding ->
+        binding.rvFeed.doOnApplyWindowInsets { v, insets, padding ->
             v.updatePaddingRelative(bottom = padding.bottom + insets.systemWindowInsetBottom)
         }
 
@@ -82,12 +74,51 @@ class FeedFragment : MainNavigationFragment() {
         })
 
         model.feed.observe(viewLifecycleOwner, Observer {
-            showFeedItems(binding.recyclerView, it)
+            showFeedItems(binding.rvFeed, it)
         })
 
-        model.performClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
+        model.performLinkClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
             openLinkOptionsDialog(link)
         })
+
+        val clipboard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        binding.fabAddLink.setOnClickListener {
+            if (!hasClipboardText(clipboard)) {
+                Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            val link = clipboard.primaryClip?.getItemAt(0)?.text.toString()
+
+            model.addLink(link)
+
+            Toast.makeText(requireContext(), "Inserted $link.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun hasClipboardText(clipboard: ClipboardManager) = when {
+        !clipboard.hasPrimaryClip() -> {
+            // disable add link button, since the clipboard is empty
+            false
+        }
+
+        !(clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) ?: false) -> {
+            // disable add link button, since the clipboard has data but it is not plain text
+            false
+        }
+
+        (clipboard.primaryClip?.itemCount ?: 0 > 0) && (clipboard.primaryClip?.getItemAt(0)?.text?.trim()?.isEmpty()
+            ?: false) -> {
+            // disable add link button, since the clipboard is empty
+            false
+        }
+
+        else -> {
+            // enable add link button, since the clipboard contains plain text
+            true
+        }
     }
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
@@ -98,10 +129,16 @@ class FeedFragment : MainNavigationFragment() {
             val linksLoadingViewBinder = LinksLoadingViewBinder()
 
             val viewBinders = HashMap<FeedItemClass, FeedItemBinder>()
-            viewBinders.put(sectionHeaderViewBinder.modelClass, sectionHeaderViewBinder as FeedItemBinder)
+            viewBinders.put(
+                sectionHeaderViewBinder.modelClass,
+                sectionHeaderViewBinder as FeedItemBinder
+            )
             viewBinders.put(linksViewBinder.modelClass, linksViewBinder as FeedItemBinder)
             viewBinders.put(linksEmptyViewBinder.modelClass, linksEmptyViewBinder as FeedItemBinder)
-            viewBinders.put(linksLoadingViewBinder.modelClass, linksLoadingViewBinder as FeedItemBinder)
+            viewBinders.put(
+                linksLoadingViewBinder.modelClass,
+                linksLoadingViewBinder as FeedItemBinder
+            )
 
             adapter = FeedAdapter(viewBinders)
         }
