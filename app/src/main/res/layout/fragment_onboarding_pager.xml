@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -28,41 +29,41 @@
             app:layout_constraintGuide_end="@dimen/onboarding_margins" />
 
         <ImageView
-            android:id="@+id/iv_welcome"
+            android:id="@+id/iv_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fitsSystemWindows="true"
             android:importantForAccessibility="no"
-            app:layout_constraintBottom_toTopOf="@id/tv_welcome_message"
+            app:layout_constraintBottom_toTopOf="@id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:srcCompat="@drawable/welcome" />
+            tools:srcCompat="@drawable/welcome" />
 
         <TextView
-            android:id="@+id/tv_welcome_message"
+            android:id="@+id/tv_title"
             style="@style/Widget.Arch.OnboardingText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_welcome_to_arch"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/tv_description_message"
+            app:layout_constraintBottom_toTopOf="@id/tv_description"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/iv_welcome" />
+            app:layout_constraintTop_toBottomOf="@id/iv_image"
+            tools:text="@string/onboarding_welcome_to_arch" />
 
         <TextView
-            android:id="@+id/tv_description_message"
+            android:id="@+id/tv_description"
             style="@style/Widget.Arch.OnboardingText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/description_message"
             android:textColor="?android:textColorSecondary"
             app:layout_constraintBottom_toTopOf="@id/spacer"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_welcome_message" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="@string/description_message" />
 
         <Space
             android:id="@+id/spacer"
@@ -72,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description_message" />
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

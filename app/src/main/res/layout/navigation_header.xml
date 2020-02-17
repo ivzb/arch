@@ -15,7 +15,7 @@
             android:layout_marginBottom="@dimen/margin_normal"
             android:layout_marginStart="@dimen/nav_item_horizontal_padding"
             android:layout_marginTop="@dimen/margin_normal"
-            android:contentDescription="@string/onboarding_welcome_to_arch"
+            android:contentDescription="@string/onboarding_welcome_title"
             app:srcCompat="@drawable/io_logo_color" />
 
         <View

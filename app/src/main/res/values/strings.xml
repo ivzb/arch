@@ -11,9 +11,15 @@
 
     <!-- Onboarding -->
     <string name="onboarding_get_started">Get started</string>
-    <string name="onboarding_welcome">Arch</string>
-    <string name="onboarding_welcome_to_arch">Welcome to Arch</string>
-    <string name="description_message">Save your links</string>
+
+    <string name="onboarding_welcome_title">Welcome to Arch</string>
+    <string name="onboarding_welcome_description">All your likes in one place, instantly</string>
+
+    <string name="onboarding_share_title">Share with friends</string>
+    <string name="onboarding_share_description">Collaborate with friends</string>
+
+    <string name="onboarding_safe_title">Keep your links safe</string>
+    <string name="onboarding_safe_description">Keeping your favorite links made easy</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -24,7 +30,7 @@
     <string name="settings_theme_battery">Set by Battery Saver</string>
 
     <!-- Feed -->
-    <string name="feed_not_available">Nothing saved yet.</string>
+    <string name="feed_not_available">You haven\'t saved any links yet.</string>
     <string name="feed_loading_error">Could not load feed. Try again later.</string>
     <string name="feed_links_title">Links</string>
 

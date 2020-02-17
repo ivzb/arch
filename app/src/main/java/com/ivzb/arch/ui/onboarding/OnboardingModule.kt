@@ -24,11 +24,11 @@ internal abstract class OnboardingModule {
     internal abstract fun contributeOnboardingFragment(): OnboardingFragment
 
     /**
-     * Generates an [AndroidInjector] for the [WelcomeFragment].
+     * Generates an [AndroidInjector] for the [OnboardingPagerFragment].
      */
     @FragmentScoped
     @ContributesAndroidInjector
-    internal abstract fun contributeWelcomeFragment(): WelcomeFragment
+    internal abstract fun contributeOnboardingFragmentPager(): OnboardingPagerFragment
 
     /**
      * The ViewModels are created by Dagger in a map. Via the @ViewModelKey, we define that we

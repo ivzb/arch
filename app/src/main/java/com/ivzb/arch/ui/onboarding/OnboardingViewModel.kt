@@ -17,7 +17,10 @@ class OnboardingViewModel @Inject constructor(
     val navigateToMainActivity: LiveData<Event<Unit>> = _navigateToMainActivity
 
     fun getStartedClick() {
-        onboardingCompleteActionUseCase(true)
         _navigateToMainActivity.postValue(Event(Unit))
+    }
+
+    fun completeOnboarding() {
+        onboardingCompleteActionUseCase(true)
     }
 }
