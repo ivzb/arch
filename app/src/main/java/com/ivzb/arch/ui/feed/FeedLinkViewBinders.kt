@@ -50,30 +50,6 @@ class LinkViewHolder(
     }
 }
 
-// Shown while loading Links
-object LoadingIndicator
-
-class LoadingViewHolder(itemView: View) : ViewHolder(itemView)
-
-class LinksLoadingViewBinder : FeedItemViewBinder<LoadingIndicator, LoadingViewHolder>(
-    LoadingIndicator::class.java
-) {
-
-    override fun createViewHolder(parent: ViewGroup): ViewHolder {
-        return LoadingViewHolder(
-            LayoutInflater.from(parent.context).inflate(getFeedItemType(), parent, false)
-        )
-    }
-
-    override fun bindViewHolder(model: LoadingIndicator, viewHolder: LoadingViewHolder) {}
-
-    override fun getFeedItemType() = R.layout.item_feed_links_loading
-
-    override fun areItemsTheSame(oldItem: LoadingIndicator, newItem: LoadingIndicator) = true
-
-    override fun areContentsTheSame(oldItem: LoadingIndicator, newItem: LoadingIndicator) = true
-}
-
 // Shown if there are no Links or fetching Links fails
 object LinkEmpty
 

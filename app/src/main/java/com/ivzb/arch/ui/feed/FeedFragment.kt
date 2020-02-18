@@ -123,22 +123,38 @@ class FeedFragment : MainNavigationFragment() {
 
     private fun showFeedItems(recyclerView: RecyclerView, list: List<Any>?) {
         if (adapter == null) {
+            val announcementViewBinder = AnnouncementViewBinder(this)
             val sectionHeaderViewBinder = FeedSectionHeaderViewBinder()
             val linksViewBinder = LinksViewBinder(this, model)
             val linksEmptyViewBinder = LinksEmptyViewBinder()
-            val linksLoadingViewBinder = LinksLoadingViewBinder()
+            val loadingViewBinder = LoadingViewBinder()
 
-            val viewBinders = HashMap<FeedItemClass, FeedItemBinder>()
-            viewBinders.put(
-                sectionHeaderViewBinder.modelClass,
-                sectionHeaderViewBinder as FeedItemBinder
-            )
-            viewBinders.put(linksViewBinder.modelClass, linksViewBinder as FeedItemBinder)
-            viewBinders.put(linksEmptyViewBinder.modelClass, linksEmptyViewBinder as FeedItemBinder)
-            viewBinders.put(
-                linksLoadingViewBinder.modelClass,
-                linksLoadingViewBinder as FeedItemBinder
-            )
+            val viewBinders = HashMap<FeedItemClass, FeedItemBinder>().apply {
+                put(
+                    announcementViewBinder.modelClass,
+                    announcementViewBinder as FeedItemBinder
+                )
+
+                put(
+                    sectionHeaderViewBinder.modelClass,
+                    sectionHeaderViewBinder as FeedItemBinder
+                )
+
+                put(
+                    linksViewBinder.modelClass,
+                    linksViewBinder as FeedItemBinder
+                )
+
+                put(
+                    linksEmptyViewBinder.modelClass,
+                    linksEmptyViewBinder as FeedItemBinder
+                )
+
+                put(
+                    loadingViewBinder.modelClass,
+                    loadingViewBinder as FeedItemBinder
+                )
+            }
 
             adapter = FeedAdapter(viewBinders)
         }

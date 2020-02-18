@@ -8,10 +8,12 @@ import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
+import com.ivzb.arch.domain.announcements.LoadAnnouncementsUseCase
 import com.ivzb.arch.domain.links.FetchLinkMetaDataUseCase
 import com.ivzb.arch.domain.links.InsertLinkUseCase
 import com.ivzb.arch.domain.links.ObserveLinksUseCase
 import com.ivzb.arch.domain.successOr
+import com.ivzb.arch.model.Announcement
 import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.SectionHeader
 import com.ivzb.arch.util.SnackbarMessage
@@ -26,6 +28,7 @@ import javax.inject.Inject
  * create the object, so defining a [@Provides] method for this class won't be needed.
  */
 class FeedViewModel @Inject constructor(
+    loadAnnouncementsUseCase: LoadAnnouncementsUseCase,
     private val observeLinksUseCase: ObserveLinksUseCase,
     private val insertLinkUseCase: InsertLinkUseCase,
     private val fetchLinkMetaDataUseCase: FetchLinkMetaDataUseCase
@@ -39,12 +42,24 @@ class FeedViewModel @Inject constructor(
 
     val performLinkClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
-    private val linksResult by lazy(LazyThreadSafetyMode.NONE) {
+    private val loadAnnouncementsResult = MutableLiveData<Result<List<Announcement>>>()
+
+    private val loadLinksResult by lazy(LazyThreadSafetyMode.NONE) {
         observeLinksUseCase.observe()
     }
 
     init {
-        val links = linksResult.map {
+        loadAnnouncementsUseCase(Unit, loadAnnouncementsResult)
+
+        val announcements: LiveData<List<Any>> = loadAnnouncementsResult.map {
+            if (it is Loading) {
+                listOf(LoadingIndicator)
+            } else {
+                it.successOr(emptyList())
+            }
+        }
+
+        val links = loadLinksResult.map {
             if (it is Loading) {
                 listOf(LoadingIndicator)
             } else {
@@ -54,21 +69,27 @@ class FeedViewModel @Inject constructor(
         }
 
         // Compose feed
-        feed = MutableLiveData(mutableListOf(SectionHeader(R.string.feed_links_title)))
-            .combine(links) { header, linkItems ->
-                val feedItems = mutableListOf<Any>()
+        feed = announcements.combine(links) { announcementItems, linkItems ->
 
-                feedItems.plus(header)
-                    .plus(linkItems)
+            val feedItems = mutableListOf<Any>()
+
+            if (announcementItems.isNotEmpty()) {
+                feedItems.add(SectionHeader(R.string.feed_announcements_title))
+                feedItems.addAll(announcementItems)
             }
 
-        errorMessage = linksResult.map {
+            feedItems.plus(SectionHeader(R.string.feed_links_title))
+                .plus(linkItems)
+
+        }
+
+        errorMessage = loadLinksResult.map {
             Event(content = (it as? Result.Error)?.exception?.message ?: "")
         }
 
         // Show an error message if the feed could not be loaded.
         snackBarMessage = MediatorLiveData()
-        snackBarMessage.addSource(linksResult) {
+        snackBarMessage.addSource(loadLinksResult) {
             if (it is Result.Error) {
                 snackBarMessage.value =
                     Event(
