@@ -16,7 +16,7 @@
             android:layout_marginStart="@dimen/nav_item_horizontal_padding"
             android:layout_marginTop="@dimen/margin_normal"
             android:contentDescription="@string/onboarding_welcome_title"
-            app:srcCompat="@drawable/io_logo_color" />
+            app:srcCompat="@mipmap/ic_launcher_round" />
 
         <View
             android:id="@+id/divider"

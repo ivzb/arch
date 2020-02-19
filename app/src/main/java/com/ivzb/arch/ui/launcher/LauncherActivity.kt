@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.main.MainActivity
-import com.ivzb.arch.ui.onboarding.OnboardingActivity
 import com.ivzb.arch.util.checkAllMatched
 import com.ivzb.arch.util.viewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
@@ -30,6 +29,7 @@ class LauncherActivity : DaggerAppCompatActivity() {
                 LaunchDestination.ONBOARDING -> startActivity(Intent(this, MainActivity::class.java))
             }.checkAllMatched
 
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
         })
     }

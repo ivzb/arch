@@ -50,4 +50,6 @@
         <item>@color/bright_orange</item>
     </integer-array>
 
+    <color name="background">#5368A6</color>
+
 </resources>
