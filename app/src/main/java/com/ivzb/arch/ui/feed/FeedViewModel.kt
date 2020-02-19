@@ -73,8 +73,8 @@ class FeedViewModel @Inject constructor(
 
             val feedItems = mutableListOf<Any>()
 
-            if (announcementItems.isNotEmpty()) {
-                feedItems.add(SectionHeader(R.string.feed_announcements_title))
+            if (announcementItems.isNotEmpty() && !(linkItems[0] is Link)) {
+//                feedItems.add(SectionHeader(R.string.feed_announcements_title))
                 feedItems.addAll(announcementItems)
             }
 

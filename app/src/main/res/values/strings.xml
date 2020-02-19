@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">arch</string>
+    <string name="app_name">Arch</string>
     <string name="version_name">Version %s</string>
 
-    <string name="title_home">Home</string>
+    <string name="title_home">Arch</string>
 
     <string name="dont_show">Don\'t show</string>
 

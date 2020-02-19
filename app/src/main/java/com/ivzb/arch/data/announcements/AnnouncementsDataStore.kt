@@ -13,9 +13,9 @@ class DefaultAnnouncementDataSource @Inject constructor() : AnnouncementDataSour
     override fun getAnnouncements() = listOf(
         Announcement(
             id = 1,
-            title = "Save your first like",
+            title = "Save your first link",
             imageUrl = null,
-            message = "Click share..."
+            message = "Paste link from clipboard or share to Arch app."
         )
     )
 }
