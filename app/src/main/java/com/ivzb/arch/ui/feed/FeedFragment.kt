@@ -12,7 +12,9 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
@@ -55,6 +57,24 @@ class FeedFragment : MainNavigationFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Set up search menu item
+        binding.toolbar.run {
+            inflateMenu(R.menu.search_menu)
+
+            model.searchVisible.observe(viewLifecycleOwner, Observer {
+                menu.findItem(R.id.search).isVisible = it?.getContentIfNotHandled() ?: false
+            })
+
+            setOnMenuItemClickListener { item ->
+                if (item.itemId == R.id.search) {
+                    openSearch()
+                    true
+                } else {
+                    false
+                }
+            }
+        }
 
         binding.rvFeed.doOnApplyWindowInsets { v, insets, padding ->
             v.updatePaddingRelative(bottom = padding.bottom + insets.systemWindowInsetBottom)
@@ -174,6 +194,10 @@ class FeedFragment : MainNavigationFragment() {
 
             show(this@FeedFragment.parentFragmentManager, DIALOG_LINK_OPTIONS)
         }
+    }
+
+    private fun openSearch() {
+//        findNavController().navigate(toSearch())
     }
 
     companion object {

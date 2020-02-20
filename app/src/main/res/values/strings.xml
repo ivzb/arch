@@ -6,6 +6,8 @@
 
     <string name="dont_show">Don\'t show</string>
 
+    <string name="search">Search</string>
+
     <!-- Accessibility -->
     <string name="a11y_show_navigation">Show navigation menu</string>
 

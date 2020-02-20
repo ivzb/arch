@@ -36,6 +36,8 @@ class FeedViewModel @Inject constructor(
 
     val feed: LiveData<List<Any>>
 
+    val searchVisible: LiveData<Event<Boolean>>
+
     val errorMessage: LiveData<Event<String>>
 
     val snackBarMessage: LiveData<Event<SnackbarMessage>>
@@ -99,6 +101,10 @@ class FeedViewModel @Inject constructor(
                         )
                     )
             }
+        }
+
+        searchVisible = loadLinksResult.map {
+            Event(content = (it as? Result.Success)?.data?.isNotEmpty() ?: false)
         }
 
         // Observe updates for links
