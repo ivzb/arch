@@ -52,6 +52,8 @@ class SearchViewModel @Inject constructor(
         _isEmpty.addSource(loadSearchResults) {
             _isEmpty.value = it.successOr(null).isNullOrEmpty()
         }
+
+        onSearchQueryChanged("")
     }
 
     override fun openSearchResult(searchResult: SearchResult) {
@@ -68,17 +70,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchQueryChanged(query: String) {
-        if (query.length < 2) {
-            onQueryCleared()
-            return
-        }
-
         observeSearchUseCase.execute(query)
-    }
-
-    private fun onQueryCleared() {
-        _searchResults.value = emptyList()
-        // Explicitly set false to not show the "No results" state
-        _isEmpty.value = false
     }
 }

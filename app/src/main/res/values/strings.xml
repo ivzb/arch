@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Arch</string>
+    <string name="app_name">Arch - Fast, secure notes and links</string>
     <string name="version_name">Version %s</string>
 
     <string name="title_home">Arch</string>

@@ -4,7 +4,6 @@ import androidx.lifecycle.Transformations
 import com.ivzb.arch.data.links.LinksRepository
 import com.ivzb.arch.domain.MediatorUseCase
 import com.ivzb.arch.domain.Result
-import com.ivzb.arch.domain.UseCase
 import javax.inject.Inject
 
 /**
@@ -25,7 +24,8 @@ class ObserveSearchUseCase @Inject constructor(
             it
                 .toSet()
                 .filter { link ->
-                    link.title?.toLowerCase()?.contains(query) ?: false ||
+                    query.isEmpty() ||
+                            link.title?.toLowerCase()?.contains(query) ?: false ||
                             link.sitename?.toLowerCase()?.contains(query) ?: false ||
                             link.url.toLowerCase().contains(query)
                 }
