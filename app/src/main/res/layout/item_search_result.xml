@@ -1,0 +1,85 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="eventListener"
+            type="com.ivzb.arch.ui.search.SearchResultActionHandler" />
+
+        <variable
+            name="searchResult"
+            type="com.ivzb.arch.ui.search.SearchResult" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Arch.Feed.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> eventListener.openSearchResult(searchResult)}"
+        app:rippleColor="@color/ripple_material_light">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/feed_link_min_height">
+
+            <ImageView
+                android:id="@+id/iv_preview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:goneUnless="@{searchResult.imageUrl != null}"
+                app:imageUrl="@{searchResult.imageUrl}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="@dimen/feed_image_width_percent"
+                app:placeholder="@{@drawable/generic_placeholder}"
+                tools:src="@drawable/event_header_sessions"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="@{searchResult.title}"
+                android:textAlignment="viewStart"
+                android:textAppearance="?textAppearanceListItem"
+                app:goneUnless="@{searchResult.title != null}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_preview"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Link" />
+
+            <TextView
+                android:id="@+id/tv_url"
+                style="@style/Widget.Arch.MultilineBody"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:autoLink="web"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{searchResult.subtitle}"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_preview"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="@tools:sample/lorem[10]" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

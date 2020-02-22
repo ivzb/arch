@@ -7,6 +7,7 @@ import com.ivzb.arch.ui.main.MainActivity
 import com.ivzb.arch.ui.main.MainActivityModule
 import com.ivzb.arch.ui.onboarding.OnboardingActivity
 import com.ivzb.arch.ui.onboarding.OnboardingModule
+import com.ivzb.arch.ui.search.SearchModule
 import com.ivzb.arch.ui.settings.SettingsModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -40,6 +41,7 @@ abstract class ActivityBindingModule {
 
             // fragments
             FeedModule::class,
+            SearchModule::class,
             SettingsModule::class
         ]
     )

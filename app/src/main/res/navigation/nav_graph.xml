@@ -9,7 +9,17 @@
         android:id="@id/navigation_feed"
         android:name="com.ivzb.arch.ui.feed.FeedFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed">
+
+        <action
+            android:id="@+id/to_search"
+            app:destination="@id/navigation_search" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_search"
+        android:name="com.ivzb.arch.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@id/navigation_settings"

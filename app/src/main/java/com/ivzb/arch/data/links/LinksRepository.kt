@@ -15,6 +15,8 @@ import javax.inject.Singleton
  */
 interface LinksRepository {
 
+    fun getAll(): List<Link>
+
     fun observeAll(): LiveData<List<Link>>
 
     fun insert(link: Link)
@@ -29,6 +31,12 @@ open class DefaultFeedRepository @Inject constructor(
     private val appDatabase: AppDatabase
 ) : LinksRepository {
 
+    override fun getAll(): List<Link> {
+        return appDatabase.linksFtsDao().getAll().toSet().map {
+            mapLink(it)
+        }
+    }
+
     override fun observeAll(): LiveData<List<Link>> {
         return Transformations.map(
             appDatabase.linksFtsDao().observeAll()
@@ -36,13 +44,7 @@ open class DefaultFeedRepository @Inject constructor(
             it
                 .toSet()
                 .map {
-                    Link(
-                        id = it.id,
-                        url = it.url,
-                        sitename = it.sitename,
-                        title = it.title,
-                        imageUrl = it.imageUrl
-                    )
+                    mapLink(it)
                 }
         }
     }
@@ -68,4 +70,12 @@ open class DefaultFeedRepository @Inject constructor(
     override fun delete(linkId: Int) {
         appDatabase.linksFtsDao().delete(linkId)
     }
+
+    private fun mapLink(it: LinkFtsEntity) = Link(
+        id = it.id,
+        url = it.url,
+        sitename = it.sitename,
+        title = it.title,
+        imageUrl = it.imageUrl
+    )
 }

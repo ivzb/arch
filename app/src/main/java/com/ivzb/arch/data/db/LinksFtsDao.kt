@@ -10,6 +10,9 @@ import androidx.room.*
 interface LinksFtsDao {
 
     @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts ORDER BY rowid DESC")
+    fun getAll(): List<LinkFtsEntity>
+
+    @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts ORDER BY rowid DESC")
     fun observeAll(): LiveData<List<LinkFtsEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

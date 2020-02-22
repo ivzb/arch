@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +17,7 @@ import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toSearch
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
@@ -63,7 +63,7 @@ class FeedFragment : MainNavigationFragment() {
             inflateMenu(R.menu.search_menu)
 
             model.searchVisible.observe(viewLifecycleOwner, Observer {
-                menu.findItem(R.id.search).isVisible = it?.getContentIfNotHandled() ?: false
+                menu.findItem(R.id.search).isVisible = it?.peekContent() ?: false
             })
 
             setOnMenuItemClickListener { item ->
@@ -197,7 +197,7 @@ class FeedFragment : MainNavigationFragment() {
     }
 
     private fun openSearch() {
-//        findNavController().navigate(toSearch())
+        findNavController().navigate(toSearch())
     }
 
     companion object {
