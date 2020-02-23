@@ -15,6 +15,8 @@ import javax.inject.Singleton
  */
 interface LinksRepository {
 
+    fun get(id: Int): Link
+
     fun getAll(): List<Link>
 
     fun observeAll(): LiveData<List<Link>>
@@ -30,6 +32,10 @@ interface LinksRepository {
 open class DefaultFeedRepository @Inject constructor(
     private val appDatabase: AppDatabase
 ) : LinksRepository {
+
+    override fun get(id: Int): Link {
+        return mapLink(appDatabase.linksFtsDao().get(id))
+    }
 
     override fun getAll(): List<Link> {
         return appDatabase.linksFtsDao().getAll().toSet().map {

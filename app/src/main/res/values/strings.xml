@@ -44,4 +44,8 @@
     <string name="a11y_delete">Delete</string>
 
     <string name="link_options">Link options</string>
+
+    <string name="navigate_up">Navigate up</string>
+
+    <string name="details">Details</string>
 </resources>

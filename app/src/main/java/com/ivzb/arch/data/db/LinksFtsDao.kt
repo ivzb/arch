@@ -9,6 +9,9 @@ import androidx.room.*
 @Dao
 interface LinksFtsDao {
 
+    @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts WHERE rowid = :id")
+    fun get(id: Int): LinkFtsEntity
+
     @Query("SELECT rowid, url, sitename, title, imageUrl FROM linkFts ORDER BY rowid DESC")
     fun getAll(): List<LinkFtsEntity>
 

@@ -16,7 +16,7 @@ enum class LinkOptionsEvent {
  * ViewModel for link options dialog
  */
 class LinkOptionsViewModel @Inject constructor(
-    val deleteLinkUseCase: DeleteLinkUseCase
+    private val deleteLinkUseCase: DeleteLinkUseCase
 ) : ViewModel() {
 
     val link = MutableLiveData<Link>()

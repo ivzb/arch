@@ -43,10 +43,18 @@ class LinkViewHolder(
 ) : ViewHolder(binding.root) {
 
     fun bind(link: Link) {
-        binding.eventListener = feedViewModel
         binding.link = link
         binding.lifecycleOwner = lifecycleOwner
         binding.executePendingBindings()
+
+        binding.cvLink.setOnClickListener {
+            feedViewModel.click(link)
+        }
+
+        binding.cvLink.setOnLongClickListener {
+            feedViewModel.longClick(link)
+            true
+        }
     }
 }
 

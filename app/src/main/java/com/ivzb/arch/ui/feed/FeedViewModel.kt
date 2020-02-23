@@ -44,6 +44,8 @@ class FeedViewModel @Inject constructor(
 
     val performLinkClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
+    val performLinkLongClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
+
     private val loadAnnouncementsResult = MutableLiveData<Result<List<Announcement>>>()
 
     private val loadLinksResult by lazy(LazyThreadSafetyMode.NONE) {
@@ -113,6 +115,10 @@ class FeedViewModel @Inject constructor(
 
     override fun click(link: Link) {
         performLinkClickEvent.postValue(Event(link))
+    }
+
+    override fun longClick(link: Link) {
+        performLinkLongClickEvent.postValue(Event(link))
     }
 
     fun addLink(value: String) {

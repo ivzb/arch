@@ -17,6 +17,7 @@ import com.ivzb.arch.R
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toDetails
 import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toSearch
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
@@ -98,6 +99,10 @@ class FeedFragment : MainNavigationFragment() {
         })
 
         model.performLinkClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
+            openDetails(link.id)
+        })
+
+        model.performLinkLongClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
             openLinkOptionsDialog(link)
         })
 
@@ -113,8 +118,6 @@ class FeedFragment : MainNavigationFragment() {
             val link = clipboard.primaryClip?.getItemAt(0)?.text.toString()
 
             model.addLink(link)
-
-            Toast.makeText(requireContext(), "Inserted $link.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -198,6 +201,10 @@ class FeedFragment : MainNavigationFragment() {
 
     private fun openSearch() {
         findNavController().navigate(toSearch())
+    }
+
+    private fun openDetails(id: Int) {
+        findNavController().navigate(toDetails(id))
     }
 
     companion object {

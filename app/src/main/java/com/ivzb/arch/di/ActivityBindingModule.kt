@@ -3,6 +3,7 @@ package com.ivzb.arch.di
 import com.ivzb.arch.ui.feed.FeedModule
 import com.ivzb.arch.ui.launcher.LaunchModule
 import com.ivzb.arch.ui.launcher.LauncherActivity
+import com.ivzb.arch.ui.details.DetailsModule
 import com.ivzb.arch.ui.main.MainActivity
 import com.ivzb.arch.ui.main.MainActivityModule
 import com.ivzb.arch.ui.onboarding.OnboardingActivity
@@ -42,6 +43,7 @@ abstract class ActivityBindingModule {
             // fragments
             FeedModule::class,
             SearchModule::class,
+            DetailsModule::class,
             SettingsModule::class
         ]
     )

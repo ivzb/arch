@@ -19,7 +19,7 @@ buildscript {
         activityVersion = '1.0.0-beta01'
         fragmentVersion = "1.2.2"
         navigationVersion = '2.2.1'
-        browserVersion = '1.2.0'
+        browserVersion = '1.0.0'
         materialVersion = '1.2.0-alpha05'
         roomVersion = '2.2.4'
         constraintLayoutVersion = '1.1.3'

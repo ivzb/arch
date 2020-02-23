@@ -4,5 +4,6 @@
          Each menu item and nav graph fragment represent the same logical item. -->
     <item name="navigation_feed" type="id" />
     <item name="navigation_search" type="id" />
+    <item name="navigation_details" type="id" />
     <item name="navigation_settings" type="id" />
 </resources>

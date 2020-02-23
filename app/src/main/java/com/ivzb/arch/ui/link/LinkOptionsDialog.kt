@@ -17,7 +17,9 @@ import com.ivzb.arch.R
 import com.ivzb.arch.databinding.DialogLinkOptionsBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.util.copy
 import com.ivzb.arch.util.executeAfter
+import com.ivzb.arch.util.share
 import com.ivzb.arch.util.viewModelProvider
 import dagger.android.support.DaggerAppCompatDialogFragment
 import javax.inject.Inject
@@ -61,8 +63,8 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
 
         linkOptionsViewModel.performLinkOptionEvent.observe(this, EventObserver { request ->
             when (request) {
-                LinkOptionsEvent.Copy -> copy(link.title ?: "Link you copied", link.url)
-                LinkOptionsEvent.Share -> share(link.url)
+                LinkOptionsEvent.Copy -> copy(requireActivity(), link.title ?: "Link you copied", link.url)
+                LinkOptionsEvent.Share -> share(requireActivity(), link.url)
                 LinkOptionsEvent.Delete -> delete(link)
                 LinkOptionsEvent.Visit -> visit()
             }
@@ -78,22 +80,6 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
         if (showsDialog) {
             (requireDialog() as AlertDialog).setView(binding.root)
         }
-    }
-
-    private fun copy(title: String, url: String) {
-        val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip: ClipData = ClipData.newPlainText(title, url)
-        clipboard.setPrimaryClip(clip)
-
-        Toast.makeText(requireContext(), "Link copied.", Toast.LENGTH_LONG).show()
-    }
-
-    private fun share(url: String) {
-        ShareCompat.IntentBuilder.from(requireActivity())
-            .setType("text/plain")
-            .setText(url)
-            .setChooserTitle(R.string.a11y_share)
-            .startChooser()
     }
 
     private fun delete(link: Link) {

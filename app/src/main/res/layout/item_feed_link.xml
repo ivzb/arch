@@ -8,16 +8,13 @@
         <import type="androidx.lifecycle.LiveData" />
 
         <variable
-            name="eventListener"
-            type="com.ivzb.arch.ui.feed.EventActions" />
-
-        <variable
             name="link"
             type="com.ivzb.arch.model.Link" />
 
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_link"
         style="@style/Widget.Arch.Feed.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +24,6 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{() -> eventListener.click(link)}"
         app:rippleColor="@color/ripple_material_light">
 
         <androidx.constraintlayout.widget.ConstraintLayout

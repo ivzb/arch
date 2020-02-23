@@ -2,6 +2,7 @@ package com.ivzb.arch.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
 import android.os.Parcel
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ import androidx.lifecycle.*
 import com.ivzb.arch.BuildConfig
 import com.ivzb.arch.model.Theme
 import com.ivzb.arch.ui.main.MainActivityViewModel
+import dagger.android.support.DaggerFragment
 
 /** Convenience for callbacks/listeners whose return value indicates an event was consumed. */
 inline fun consume(f: () -> Unit): Boolean {
@@ -295,4 +297,12 @@ fun View.showKeyboard() {
 fun View.dismissKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+/**
+ * An extension to `postponeEnterTransition` which will resume after a timeout.
+ */
+fun DaggerFragment.postponeEnterTransition(timeout: Long) {
+    postponeEnterTransition()
+    Handler().postDelayed({ startPostponedEnterTransition() }, timeout)
 }
