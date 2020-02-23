@@ -23,7 +23,12 @@
     <fragment
         android:id="@id/navigation_search"
         android:name="com.ivzb.arch.ui.search.SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_details" />
+    </fragment>
 
     <fragment
         android:id="@id/navigation_details"

@@ -21,6 +21,10 @@ android {
     }
 
     buildTypes {
+        debug {
+
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -82,7 +86,7 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-analytics:$rootProject.firebaseVersion"
-    implementation "com.google.firebase:firebase-crashlytics:$rootProject.crashlyticsVersion"
+    releaseImplementation "com.google.firebase:firebase-crashlytics:$rootProject.crashlyticsVersion"
 
     // Utils
     implementation "org.jsoup:jsoup:$rootProject.jsoupVersion"

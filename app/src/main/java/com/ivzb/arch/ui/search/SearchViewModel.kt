@@ -28,6 +28,8 @@ class SearchViewModel @Inject constructor(
 
     val performLinkClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
 
+    val performLinkLongClickEvent: MutableLiveData<Event<Link>> = MutableLiveData()
+
     init {
         _searchResults.addSource(loadSearchResults) {
             val result = (it as? Result.Success)?.data ?: emptyList()
@@ -56,10 +58,23 @@ class SearchViewModel @Inject constructor(
         onSearchQueryChanged("")
     }
 
-    override fun openSearchResult(searchResult: SearchResult) {
+    override fun clickSearchResult(searchResult: SearchResult) {
         when (searchResult.type) {
             SearchResultType.LINK -> {
                 performLinkClickEvent.postValue(Event(Link(
+                    id = searchResult.id,
+                    title = searchResult.title,
+                    url = searchResult.subtitle,
+                    imageUrl = searchResult.imageUrl
+                )))
+            }
+        }
+    }
+
+    override fun longClickSearchResult(searchResult: SearchResult) {
+        when (searchResult.type) {
+            SearchResultType.LINK -> {
+                performLinkLongClickEvent.postValue(Event(Link(
                     id = searchResult.id,
                     title = searchResult.title,
                     url = searchResult.subtitle,

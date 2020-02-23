@@ -29,9 +29,17 @@ class SearchViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(searchResult: SearchResult) {
-        binding.eventListener = searchViewModel
         binding.searchResult = searchResult
         binding.executePendingBindings()
+
+        binding.cvLink.setOnClickListener {
+            searchViewModel.clickSearchResult(searchResult)
+        }
+
+        binding.cvLink.setOnLongClickListener {
+            searchViewModel.longClickSearchResult(searchResult)
+            true
+        }
     }
 }
 

@@ -5,5 +5,7 @@ package com.ivzb.arch.ui.search
  */
 interface SearchResultActionHandler {
 
-    fun openSearchResult(searchResult: SearchResult)
+    fun clickSearchResult(searchResult: SearchResult)
+
+    fun longClickSearchResult(searchResult: SearchResult)
 }

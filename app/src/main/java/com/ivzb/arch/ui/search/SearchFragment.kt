@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ivzb.arch.databinding.FragmentSearchBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.ui.feed.FeedFragmentDirections
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.util.dismissKeyboard
@@ -73,6 +75,10 @@ class SearchFragment : MainNavigationFragment() {
         }
 
         model.performLinkClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
+            openDetails(link.id)
+        })
+
+        model.performLinkLongClickEvent.observe(viewLifecycleOwner, EventObserver { link ->
             openLinkOptionsDialog(link)
         })
     }
@@ -80,6 +86,10 @@ class SearchFragment : MainNavigationFragment() {
     override fun onPause() {
         binding.toolbar.searchView.dismissKeyboard()
         super.onPause()
+    }
+
+    private fun openDetails(id: Int) {
+        findNavController().navigate(FeedFragmentDirections.toDetails(id))
     }
 
     private fun openLinkOptionsDialog(link: Link) {
