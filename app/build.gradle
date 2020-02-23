@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -82,6 +83,7 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-analytics:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-crashlytics:$rootProject.crashlyticsVersion"
 
     // Utils
     implementation "org.jsoup:jsoup:$rootProject.jsoupVersion"
