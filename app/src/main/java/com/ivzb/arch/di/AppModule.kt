@@ -2,6 +2,8 @@ package com.ivzb.arch.di
 
 import android.content.Context
 import com.ivzb.arch.MainApplication
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.FirebaseAnalyticsHelper
 import com.ivzb.arch.data.links.*
 import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.prefs.PreferenceStorage
@@ -28,4 +30,10 @@ class AppModule {
     @Provides
     fun providesPreferenceStorage(context: Context): PreferenceStorage =
         SharedPreferenceStorage(context)
+
+    @Singleton
+    @Provides
+    fun providesAnalyticsHelper(
+        context: Context
+    ): AnalyticsHelper = FirebaseAnalyticsHelper(context)
 }

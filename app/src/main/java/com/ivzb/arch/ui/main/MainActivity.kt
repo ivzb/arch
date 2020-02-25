@@ -18,6 +18,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.ivzb.arch.R
+import com.ivzb.arch.analytics.AnalyticsActions
+import com.ivzb.arch.analytics.AnalyticsHelper
 import com.ivzb.arch.databinding.NavigationHeaderBinding
 import com.ivzb.arch.util.*
 import com.ivzb.arch.widget.HashtagArchDecoration
@@ -29,6 +31,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var viewModel: MainActivityViewModel
 
@@ -106,16 +111,17 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
 
         navigation = findViewById(R.id.navigation)
         navigation.apply {
-            // Add the #io19 decoration
             val menuView = findViewById<RecyclerView>(R.id.design_navigation_view)?.apply {
                 addItemDecoration(HashtagArchDecoration(context))
             }
+
             // Update the Navigation header view to pad itself down
             navHeaderBinding.root.doOnApplyWindowInsets { v, insets, padding ->
                 v.updatePadding(top = padding.top + insets.systemWindowInsetTop)
                 // NavigationView doesn't dispatch insets to the menu view, so pad the bottom here.
                 menuView?.updatePadding(bottom = insets.systemWindowInsetBottom)
             }
+
             addHeaderView(navHeaderBinding.root)
 
             itemBackground = navigationItemBackground(context)
@@ -176,6 +182,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
             Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
                     viewModel.handleLink(intent)
+                    analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_SHARE)
                 }
             }
         }

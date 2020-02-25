@@ -1,16 +1,16 @@
 package com.ivzb.arch.ui.settings
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.TextView
 import androidx.core.view.updatePaddingRelative
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.ivzb.arch.R
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentSettingsBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.main.MainNavigationFragment
@@ -19,7 +19,11 @@ import com.ivzb.arch.util.viewModelProvider
 import javax.inject.Inject
 
 class SettingsFragment : MainNavigationFragment() {
+
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var viewModel: SettingsViewModel
 
@@ -45,18 +49,11 @@ class SettingsFragment : MainNavigationFragment() {
 
         return binding.root
     }
-}
 
-@BindingAdapter(value = ["dialogTitle", "fileLink"], requireAll = true)
-fun createDialogForFile(button: View, dialogTitle: String, fileLink: String) {
-    val context = button.context
-    button.setOnClickListener {
-        val webView = WebView(context).apply { loadUrl(fileLink) }
-        AlertDialog.Builder(context)
-            .setTitle(dialogTitle)
-            .setView(webView)
-            .create()
-            .show()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        analyticsHelper.sendScreenView(AnalyticsScreens.SETTINGS, requireActivity())
     }
 }
 

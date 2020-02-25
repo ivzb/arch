@@ -1,19 +1,16 @@
 package com.ivzb.arch.ui.link
 
 import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ShareCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ivzb.arch.R
+import com.ivzb.arch.analytics.AnalyticsActions
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.DialogLinkOptionsBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
@@ -31,6 +28,9 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var linkOptionsViewModel: LinkOptionsViewModel
 
@@ -53,6 +53,12 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        analyticsHelper.sendScreenView(AnalyticsScreens.OPTIONS, requireActivity())
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         linkOptionsViewModel = viewModelProvider(viewModelFactory)
@@ -63,8 +69,8 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
 
         linkOptionsViewModel.performLinkOptionEvent.observe(this, EventObserver { request ->
             when (request) {
-                LinkOptionsEvent.Copy -> copy(requireActivity(), link.title ?: "Link you copied", link.url)
-                LinkOptionsEvent.Share -> share(requireActivity(), link.url)
+                LinkOptionsEvent.Copy -> copy(link)
+                LinkOptionsEvent.Share -> share(link)
                 LinkOptionsEvent.Delete -> delete(link)
                 LinkOptionsEvent.Visit -> visit()
             }
@@ -82,12 +88,23 @@ class LinkOptionsDialogFragment : DaggerAppCompatDialogFragment() {
         }
     }
 
+    private fun copy(link: Link) {
+        copy(requireActivity(), link.title ?: "Link you copied", link.url)
+        analyticsHelper.logUiEvent(AnalyticsActions.LINK_COPY)
+    }
+
+    private fun share(link: Link) {
+        share(requireActivity(), link.url)
+        analyticsHelper.logUiEvent(AnalyticsActions.LINK_SHARE)
+    }
+
     private fun delete(link: Link) {
         linkOptionsViewModel.deleteLink(link)
+        analyticsHelper.logUiEvent(AnalyticsActions.LINK_DELETE)
     }
 
     private fun visit() {
-        // do nothing
+        analyticsHelper.logUiEvent(AnalyticsActions.LINK_VISIT)
     }
 
     companion object {

@@ -8,6 +8,9 @@ import android.widget.SearchView
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.ivzb.arch.analytics.AnalyticsActions
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentSearchBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
@@ -25,6 +28,9 @@ class SearchFragment : MainNavigationFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var model: SearchViewModel
@@ -46,6 +52,8 @@ class SearchFragment : MainNavigationFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        analyticsHelper.sendScreenView(AnalyticsScreens.SEARCH, requireActivity())
 
         binding.toolbar.searchView.apply {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -89,10 +97,12 @@ class SearchFragment : MainNavigationFragment() {
     }
 
     private fun openDetails(id: Int) {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_DETAILS)
         findNavController().navigate(FeedFragmentDirections.toDetails(id))
     }
 
     private fun openLinkOptionsDialog(link: Link) {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_OPTIONS)
         LinkOptionsDialogFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(LinkOptionsDialogFragment.LINK, link)

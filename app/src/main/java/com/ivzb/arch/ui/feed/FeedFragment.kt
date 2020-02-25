@@ -14,6 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ivzb.arch.R
+import com.ivzb.arch.analytics.AnalyticsActions
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
@@ -34,6 +37,9 @@ class FeedFragment : MainNavigationFragment() {
 
     @Inject
     lateinit var snackbarMessageManager: SnackbarMessageManager
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var model: FeedViewModel
     private lateinit var binding: FragmentFeedBinding
@@ -58,6 +64,8 @@ class FeedFragment : MainNavigationFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        analyticsHelper.sendScreenView(AnalyticsScreens.HOME, requireActivity())
 
         // Set up search menu item
         binding.toolbar.run {
@@ -112,12 +120,15 @@ class FeedFragment : MainNavigationFragment() {
         binding.fabAddLink.setOnClickListener {
             if (!hasClipboardText(clipboard)) {
                 Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
+                analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_EMPTY_CLIPBOARD)
                 return@setOnClickListener
             }
 
             val link = clipboard.primaryClip?.getItemAt(0)?.text.toString()
 
             model.addLink(link)
+
+            analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_MANUALLY)
         }
     }
 
@@ -190,6 +201,7 @@ class FeedFragment : MainNavigationFragment() {
     }
 
     private fun openLinkOptionsDialog(link: Link) {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_OPTIONS)
         LinkOptionsDialogFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(LinkOptionsDialogFragment.LINK, link)
@@ -200,10 +212,12 @@ class FeedFragment : MainNavigationFragment() {
     }
 
     private fun openSearch() {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_SEARCH)
         findNavController().navigate(toSearch())
     }
 
     private fun openDetails(id: Int) {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_DETAILS)
         findNavController().navigate(toDetails(id))
     }
 

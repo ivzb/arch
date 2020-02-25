@@ -10,6 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionInflater
 import com.ivzb.arch.R
+import com.ivzb.arch.analytics.AnalyticsActions
+import com.ivzb.arch.analytics.AnalyticsHelper
+import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentDetailsBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.main.MainNavigationFragment
@@ -24,6 +27,9 @@ class DetailsFragment : MainNavigationFragment() {
 
     @Inject
     lateinit var snackbarMessageManager: SnackbarMessageManager
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private lateinit var detailsViewModel: DetailsViewModel
 
@@ -54,18 +60,21 @@ class DetailsFragment : MainNavigationFragment() {
                     R.id.menu_item_copy -> {
                         detailsViewModel.link.value?.apply {
                             copy(requireActivity(), title ?: "Link you copied", url)
+                            analyticsHelper.logUiEvent(AnalyticsActions.LINK_COPY)
                         }
                     }
 
                     R.id.menu_item_share -> {
                         detailsViewModel.link.value?.apply {
                             share(requireActivity(), url)
+                            analyticsHelper.logUiEvent(AnalyticsActions.LINK_SHARE)
                         }
                     }
 
                     R.id.menu_item_delete -> {
                         detailsViewModel.link.value?.apply {
                             detailsViewModel.deleteLink(this)
+                            analyticsHelper.logUiEvent(AnalyticsActions.LINK_DELETE)
                         }
 
                         requireActivity().onBackPressed()
@@ -120,5 +129,11 @@ class DetailsFragment : MainNavigationFragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        analyticsHelper.sendScreenView(AnalyticsScreens.DETAILS, requireActivity())
     }
 }
