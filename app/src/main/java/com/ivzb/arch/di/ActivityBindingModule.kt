@@ -1,5 +1,6 @@
 package com.ivzb.arch.di
 
+import com.ivzb.arch.ui.add.AddModule
 import com.ivzb.arch.ui.feed.FeedModule
 import com.ivzb.arch.ui.launcher.LaunchModule
 import com.ivzb.arch.ui.launcher.LauncherActivity
@@ -44,6 +45,7 @@ abstract class ActivityBindingModule {
             FeedModule::class,
             SearchModule::class,
             DetailsModule::class,
+            AddModule::class,
             SettingsModule::class
         ]
     )

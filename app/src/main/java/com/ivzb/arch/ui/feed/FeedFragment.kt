@@ -1,6 +1,5 @@
 package com.ivzb.arch.ui.feed
 
-import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
@@ -20,14 +19,13 @@ import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentFeedBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toAdd
 import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toDetails
 import com.ivzb.arch.ui.feed.FeedFragmentDirections.Companion.toSearch
 import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
-import com.ivzb.arch.util.doOnApplyWindowInsets
-import com.ivzb.arch.util.setUpSnackbar
-import com.ivzb.arch.util.viewModelProvider
+import com.ivzb.arch.util.*
 import javax.inject.Inject
 
 class FeedFragment : MainNavigationFragment() {
@@ -118,39 +116,17 @@ class FeedFragment : MainNavigationFragment() {
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         binding.fabAddLink.setOnClickListener {
-            if (!hasClipboardText(clipboard)) {
-                Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
-                analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_EMPTY_CLIPBOARD)
-                return@setOnClickListener
+            openAdd()
+        }
+
+        binding.fabAddLink.setOnLongClickListener {
+            if (!clipboard.hasLink()) {
+                openAdd()
+            } else {
+                model.addLink(clipboard.getLink())
+                analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_CLIPBOARD)
             }
 
-            val link = clipboard.primaryClip?.getItemAt(0)?.text.toString()
-
-            model.addLink(link)
-
-            analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_MANUALLY)
-        }
-    }
-
-    private fun hasClipboardText(clipboard: ClipboardManager) = when {
-        !clipboard.hasPrimaryClip() -> {
-            // disable add link button, since the clipboard is empty
-            false
-        }
-
-        !(clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) ?: false) -> {
-            // disable add link button, since the clipboard has data but it is not plain text
-            false
-        }
-
-        (clipboard.primaryClip?.itemCount ?: 0 > 0) && (clipboard.primaryClip?.getItemAt(0)?.text?.trim()?.isEmpty()
-            ?: false) -> {
-            // disable add link button, since the clipboard is empty
-            false
-        }
-
-        else -> {
-            // enable add link button, since the clipboard contains plain text
             true
         }
     }
@@ -214,6 +190,11 @@ class FeedFragment : MainNavigationFragment() {
     private fun openSearch() {
         analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_SEARCH)
         findNavController().navigate(toSearch())
+    }
+
+    private fun openAdd() {
+        analyticsHelper.logUiEvent(AnalyticsActions.HOME_TO_ADD)
+        findNavController().navigate(toAdd())
     }
 
     private fun openDetails(id: Int) {

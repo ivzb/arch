@@ -18,6 +18,10 @@
         <action
             android:id="@+id/to_details"
             app:destination="@id/navigation_details" />
+
+        <action
+            android:id="@+id/to_add"
+            app:destination="@id/navigation_add" />
     </fragment>
 
     <fragment
@@ -39,6 +43,11 @@
             android:name="link_id"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@id/navigation_add"
+        android:name="com.ivzb.arch.ui.add.AddFragment"
+        tools:layout="@layout/fragment_add" />
 
     <fragment
         android:id="@id/navigation_settings"

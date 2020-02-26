@@ -5,5 +5,6 @@
     <item name="navigation_feed" type="id" />
     <item name="navigation_search" type="id" />
     <item name="navigation_details" type="id" />
+    <item name="navigation_add" type="id" />
     <item name="navigation_settings" type="id" />
 </resources>

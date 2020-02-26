@@ -37,6 +37,7 @@
             android:text="@{viewModel.link.title}"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.Arch.H1"
+            app:goneUnless="@{viewModel.link.title != null}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent"

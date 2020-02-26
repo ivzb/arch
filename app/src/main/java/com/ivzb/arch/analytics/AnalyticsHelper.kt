@@ -15,7 +15,8 @@ interface AnalyticsHelper {
 /** Actions that should be used when sending analytics events */
 object AnalyticsActions {
 
-    const val ADD_LINK_MANUALLY = "add_link_manually"
+    const val ADD_LINK_CLIPBOARD = "add_link_manually_clipboard"
+    const val ADD_LINK_MANUALLY = "add_link_manually_manually"
     const val ADD_LINK_SHARE = "add_link_share"
     const val ADD_LINK_EMPTY_CLIPBOARD = "add_link_empty_clipboard"
 
@@ -27,6 +28,7 @@ object AnalyticsActions {
     const val HOME_TO_DETAILS = "home_to_details"
     const val HOME_TO_OPTIONS = "home_to_options"
     const val HOME_TO_SEARCH = "home_to_search"
+    const val HOME_TO_ADD = "home_to_add"
 }
 
 /** Screens that should be used when opening screens */
@@ -36,5 +38,6 @@ object AnalyticsScreens {
     const val SEARCH = "search"
     const val OPTIONS = "options"
     const val DETAILS = "details"
+    const val ADD = "add"
     const val SETTINGS = "settings"
 }
