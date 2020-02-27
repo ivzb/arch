@@ -43,6 +43,7 @@ class FirebaseAnalyticsHelper(
         }
 
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, params)
+        firebaseAnalytics.logEvent(action, Bundle())
     }
 
     companion object {

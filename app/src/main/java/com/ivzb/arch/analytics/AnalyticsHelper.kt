@@ -40,11 +40,11 @@ object AnalyticsActions {
 /** Screens that should be used when opening screens */
 object AnalyticsScreens {
 
-    const val HOME = "home"
-    const val SEARCH = "search"
-    const val OPTIONS = "options"
-    const val DETAILS = "details"
-    const val ADD = "add"
-    const val EDIT = "edit"
-    const val SETTINGS = "settings"
+    const val HOME = "screen_home"
+    const val SEARCH = "screen_search"
+    const val OPTIONS = "screen_options"
+    const val DETAILS = "screen_details"
+    const val ADD = "screen_add"
+    const val EDIT = "screen_edit"
+    const val SETTINGS = "screen_settings"
 }

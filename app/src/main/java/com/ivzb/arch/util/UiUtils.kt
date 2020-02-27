@@ -10,8 +10,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ShareCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.ivzb.arch.R
-import com.ivzb.arch.analytics.AnalyticsActions
-import com.ivzb.arch.analytics.AnalyticsHelper
 
 fun navigationItemBackground(context: Context): Drawable? {
     // Need to inflate the drawable and CSL via AppCompatResources to work on Lollipop
