@@ -34,7 +34,7 @@ object AnalyticsActions {
     const val HOME_TO_SEARCH = "home_to_search"
     const val HOME_TO_ADD = "home_to_add"
 
-    const val ADD_TO_EDIT = "add_to_edit"
+    const val DETAILS_TO_EDIT = "details_to_edit"
 }
 
 /** Screens that should be used when opening screens */

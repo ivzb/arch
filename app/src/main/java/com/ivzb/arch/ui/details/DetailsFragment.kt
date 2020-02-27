@@ -141,7 +141,7 @@ class DetailsFragment : MainNavigationFragment() {
     }
 
     private fun openEdit(id: Int, url: String) {
-        analyticsHelper.logUiEvent(AnalyticsActions.ADD_TO_EDIT)
+        analyticsHelper.logUiEvent(AnalyticsActions.DETAILS_TO_EDIT)
         findNavController().navigate(toEdit(id, url))
     }
 }
