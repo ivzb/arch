@@ -1,7 +1,6 @@
 package com.ivzb.arch.data.links
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.ivzb.arch.data.db.AppDatabase
 import com.ivzb.arch.data.db.LinkFtsEntity
@@ -19,9 +18,13 @@ interface LinksRepository {
 
     fun getAll(): List<Link>
 
+    fun observe(id: Int): LiveData<Link>
+
     fun observeAll(): LiveData<List<Link>>
 
     fun insert(link: Link)
+
+    fun update(link: Link)
 
     fun update(linkMetaData: LinkMetaData)
 
@@ -43,6 +46,12 @@ open class DefaultFeedRepository @Inject constructor(
         }
     }
 
+    override fun observe(id: Int): LiveData<Link> {
+        return Transformations.map(
+            appDatabase.linksFtsDao().observe(id)
+        ) { mapLink(it) }
+    }
+
     override fun observeAll(): LiveData<List<Link>> {
         return Transformations.map(
             appDatabase.linksFtsDao().observeAll()
@@ -61,6 +70,13 @@ open class DefaultFeedRepository @Inject constructor(
                 id = link.id,
                 url = link.url
             )
+        )
+    }
+
+    override fun update(link: Link) {
+        appDatabase.linksFtsDao().update(
+            link.id,
+            link.url
         )
     }
 

@@ -16,6 +16,8 @@ import com.ivzb.arch.analytics.AnalyticsScreens
 import com.ivzb.arch.databinding.FragmentDetailsBinding
 import com.ivzb.arch.domain.EventObserver
 import com.ivzb.arch.ui.main.MainNavigationFragment
+import androidx.navigation.fragment.findNavController
+import com.ivzb.arch.ui.details.DetailsFragmentDirections.Companion.toEdit
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
 import com.ivzb.arch.util.*
 import javax.inject.Inject
@@ -119,13 +121,14 @@ class DetailsFragment : MainNavigationFragment() {
         })
 
         binding.fabEditLink.setOnClickListener {
-            detailsViewModel.editLink()
+            detailsViewModel.link.value?.apply {
+                openEdit(id, url)
+            }
         }
 
-        // When opened from the post link notification, open the feedback dialog
-        requireNotNull(arguments).apply {
+        requireArguments().apply {
             val linkId = DetailsFragmentArgs.fromBundle(this).linkId
-            detailsViewModel.loadLink(linkId)
+            detailsViewModel.observeLink(linkId)
         }
 
         return binding.root
@@ -135,5 +138,10 @@ class DetailsFragment : MainNavigationFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         analyticsHelper.sendScreenView(AnalyticsScreens.DETAILS, requireActivity())
+    }
+
+    private fun openEdit(id: Int, url: String) {
+        analyticsHelper.logUiEvent(AnalyticsActions.ADD_TO_EDIT)
+        findNavController().navigate(toEdit(id, url))
     }
 }

@@ -1,4 +1,4 @@
-package com.ivzb.arch.ui.add
+package com.ivzb.arch.ui.edit
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -15,12 +15,12 @@ import com.ivzb.arch.R
 import com.ivzb.arch.analytics.AnalyticsActions
 import com.ivzb.arch.analytics.AnalyticsHelper
 import com.ivzb.arch.analytics.AnalyticsScreens
-import com.ivzb.arch.databinding.FragmentAddBinding
+import com.ivzb.arch.databinding.FragmentEditBinding
 import com.ivzb.arch.ui.main.MainNavigationFragment
 import com.ivzb.arch.util.*
 import javax.inject.Inject
 
-class AddFragment : MainNavigationFragment() {
+class EditFragment : MainNavigationFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -28,22 +28,22 @@ class AddFragment : MainNavigationFragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
-    private lateinit var addViewModel: AddViewModel
+    private lateinit var detailsViewModel: EditViewModel
 
-    private lateinit var binding: FragmentAddBinding
+    private lateinit var binding: FragmentEditBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        addViewModel = viewModelProvider(viewModelFactory)
+        detailsViewModel = viewModelProvider(viewModelFactory)
 
         sharedElementReturnTransition =
             TransitionInflater.from(context).inflateTransition(R.transition.link_shared_enter)
 
-        binding = FragmentAddBinding.inflate(inflater, container, false).apply {
-            viewModel = addViewModel
+        binding = FragmentEditBinding.inflate(inflater, container, false).apply {
+            viewModel = detailsViewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -53,25 +53,32 @@ class AddFragment : MainNavigationFragment() {
         binding.tilUrl.setEndIconOnClickListener {
             if (clipboard.hasLink()) {
                 binding.etUrl.setText(clipboard.getLink())
-                analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_CLIPBOARD)
+                analyticsHelper.logUiEvent(AnalyticsActions.EDIT_LINK_CLIPBOARD)
             } else {
                 Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
-                analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_EMPTY_CLIPBOARD)
+                analyticsHelper.logUiEvent(AnalyticsActions.EDIT_LINK_EMPTY_CLIPBOARD)
             }
         }
 
         binding.etUrl.doOnTextChanged { text, _, _, _ ->
-            addViewModel.typeUrl(text.toString())
+            detailsViewModel.typeUrl(text.toString())
         }
 
-        binding.fabSaveLink.setOnClickListener {
-            addViewModel.addLink(binding.etUrl.text.toString())
-            analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_MANUALLY)
-            binding.root.dismissKeyboard()
-            requireActivity().onBackPressed()
+        requireArguments().apply {
+            val linkId = EditFragmentArgs.fromBundle(this).linkId
+            val linkUrl = EditFragmentArgs.fromBundle(this).linkUrl
+
+            binding.etUrl.setText(linkUrl)
+
+            binding.fabSaveLink.setOnClickListener {
+                detailsViewModel.editLink(linkId, binding.etUrl.text.toString())
+                analyticsHelper.logUiEvent(AnalyticsActions.EDIT_LINK_MANUALLY)
+                binding.root.dismissKeyboard()
+                requireActivity().onBackPressed()
+            }
         }
 
-        addViewModel.canAddLink.observe(this, Observer {
+        detailsViewModel.canEditLink.observe(this, Observer {
             binding.fabSaveLink.isEnabled = it
         })
 
@@ -81,6 +88,6 @@ class AddFragment : MainNavigationFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        analyticsHelper.sendScreenView(AnalyticsScreens.ADD, requireActivity())
+        analyticsHelper.sendScreenView(AnalyticsScreens.EDIT, requireActivity())
     }
 }

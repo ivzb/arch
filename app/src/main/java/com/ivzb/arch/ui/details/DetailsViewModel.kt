@@ -12,17 +12,20 @@ import com.ivzb.arch.util.SnackbarMessage
 import javax.inject.Inject
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.links.DeleteLinkUseCase
+import com.ivzb.arch.domain.links.ObserveLinkUseCase
 
 /**
  * Loads [Link] data and exposes it to the link detail view.
  */
 class DetailsViewModel @Inject constructor(
-    private val loadLinkUseCase: LoadLinkUseCase,
+    private val observeLinkUseCase: ObserveLinkUseCase,
     private val deleteLinkUseCase: DeleteLinkUseCase,
     private val snackbarMessageManager: SnackbarMessageManager
 ) : ViewModel() {
 
-    private val loadLinkResult = MutableLiveData<Result<Link>>()
+    private val loadLinkResult by lazy(LazyThreadSafetyMode.NONE) {
+        observeLinkUseCase.observe()
+    }
 
     private val _errorMessage = MediatorLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>>
@@ -42,14 +45,11 @@ class DetailsViewModel @Inject constructor(
                 _link.value = it
             }
         }
+
     }
 
-    fun loadLink(id: Int) {
-        loadLinkUseCase(id, loadLinkResult)
-    }
-
-    fun editLink() {
-        _errorMessage.value = Event("Editing links will be available in next update.")
+    fun observeLink(id: Int) {
+        observeLinkUseCase.execute(id)
     }
 
     fun deleteLink(link: Link) {

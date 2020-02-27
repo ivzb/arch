@@ -42,12 +42,31 @@
         <argument
             android:name="link_id"
             app:argType="integer" />
+
+        <action
+            android:id="@+id/to_edit"
+            app:destination="@id/navigation_edit" />
     </fragment>
 
     <fragment
         android:id="@id/navigation_add"
         android:name="com.ivzb.arch.ui.add.AddFragment"
         tools:layout="@layout/fragment_add" />
+
+    <fragment
+        android:id="@id/navigation_edit"
+        android:name="com.ivzb.arch.ui.edit.EditFragment"
+        tools:layout="@layout/fragment_edit">
+
+        <argument
+            android:name="link_id"
+            app:argType="integer" />
+
+        <argument
+            android:name="link_url"
+            app:argType="string" />
+    </fragment>
+
 
     <fragment
         android:id="@id/navigation_settings"

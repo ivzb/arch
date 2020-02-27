@@ -1,31 +1,31 @@
-package com.ivzb.arch.ui.add
+package com.ivzb.arch.ui.edit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.ivzb.arch.domain.links.FetchLinkMetaDataUseCase
-import com.ivzb.arch.domain.links.InsertLinkUseCase
+import com.ivzb.arch.domain.links.UpdateLinkUseCase
 import com.ivzb.arch.model.Link
 import com.ivzb.arch.ui.messages.SnackbarMessageManager
 import com.ivzb.arch.util.extractUrl
 import javax.inject.Inject
 
-class AddViewModel @Inject constructor(
-    private val insertLinkUseCase: InsertLinkUseCase,
+class EditViewModel @Inject constructor(
+    private val updateLinkUseCase: UpdateLinkUseCase,
     private val fetchLinkMetaDataUseCase: FetchLinkMetaDataUseCase,
     private val snackbarMessageManager: SnackbarMessageManager
 ) : ViewModel() {
 
-    private val _canAddLink = MediatorLiveData<Boolean>()
-    val canAddLink: LiveData<Boolean> = _canAddLink
+    private val _canEditLink = MediatorLiveData<Boolean>()
+    val canEditLink: LiveData<Boolean> = _canEditLink
 
     fun typeUrl(value: String) {
-        _canAddLink.postValue(value.isNotEmpty())
+        _canEditLink.postValue(value.isNotEmpty())
     }
 
-    fun addLink(value: String) {
-        Link(url = extractUrl(value)).let {
-            insertLinkUseCase(it)
+    fun editLink(id: Int, value: String) {
+        Link(id = id, url = extractUrl(value)).let {
+            updateLinkUseCase(it)
             fetchLinkMetaDataUseCase(it)
         }
     }
