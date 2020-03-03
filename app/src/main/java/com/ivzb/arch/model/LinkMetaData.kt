@@ -4,8 +4,7 @@ data class LinkMetaData(
     var url: String,
     var sitename: String? = null,
     var imageUrl: String? = null,
-    var title: String? = null,
-    var description: String? = null
+    var title: String? = null
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -18,7 +17,6 @@ data class LinkMetaData(
         if (sitename != other.sitename) return false
         if (imageUrl != other.imageUrl) return false
         if (title != other.title) return false
-        if (description != other.description) return false
 
         return true
     }
@@ -28,7 +26,6 @@ data class LinkMetaData(
         result = 31 * result + (sitename?.hashCode() ?: 0)
         result = 31 * result + (imageUrl?.hashCode() ?: 0)
         result = 31 * result + (title?.hashCode() ?: 0)
-        result = 31 * result + (description?.hashCode() ?: 0)
         return result
     }
 }

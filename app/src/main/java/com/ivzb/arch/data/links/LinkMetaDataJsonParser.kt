@@ -24,27 +24,11 @@ object LinkMetaDataJsonParser {
         if (title == null || title.isEmpty()) {
             title = doc.title()
         }
+
         metaData.title = title ?: ""
 
-        //getDescription
-        var description: String? = doc.select("meta[name=description]").attr("content")
-
-        if (description == null || description.isEmpty()) {
-            description = doc.select("meta[name=Description]").attr("content")
-        }
-
-        if (description == null || description.isEmpty()) {
-            description = doc.select("meta[property=og:description]").attr("content")
-        }
-
-        if (description == null || description.isEmpty()) {
-            description = ""
-        }
-
-        metaData.description = description
-
-        //getImages
         val imageElements = doc.select("meta[property=og:image]")
+
         if (imageElements.size > 0) {
             val image = imageElements.attr("content")
             if (!image.isEmpty()) {
@@ -54,15 +38,18 @@ object LinkMetaDataJsonParser {
 
         if (metaData.imageUrl == null || metaData.imageUrl!!.isEmpty()) {
             var src = doc.select("link[rel=image_src]").attr("href")
-            if (!src.isEmpty()) {
+
+            if (src.isNotEmpty()) {
                 metaData.imageUrl = resolveURL(url, src)
             } else {
                 src = doc.select("link[rel=apple-touch-icon]").attr("href")
-                if (!src.isEmpty()) {
+
+                if (src.isNotEmpty()) {
                     metaData.imageUrl = resolveURL(url, src)
                 } else {
                     src = doc.select("link[rel=icon]").attr("href")
-                    if (!src.isEmpty()) {
+
+                    if (src.isNotEmpty()) {
                         metaData.imageUrl = resolveURL(url, src)
                     }
                 }
@@ -71,9 +58,9 @@ object LinkMetaDataJsonParser {
 
         for (element in elements) {
             if (element.hasAttr("property")) {
-                val str_property = element.attr("property").toString().trim { it <= ' ' }
+                val property = element.attr("property").toString().trim { it <= ' ' }
 
-                if (str_property == "og:site_name") {
+                if (property == "og:site_name") {
                     metaData.sitename = element.attr("content").toString()
                 }
             }
@@ -87,14 +74,10 @@ object LinkMetaDataJsonParser {
             return part
         }
 
-        var base_uri: URI? = null
-        try {
-            base_uri = URI(url)
+        return try{
+            URI(url).resolve(part).toString()
         } catch (e: URISyntaxException) {
-            e.printStackTrace()
+            ""
         }
-
-        base_uri = base_uri!!.resolve(part)
-        return base_uri!!.toString()
     }
 }
