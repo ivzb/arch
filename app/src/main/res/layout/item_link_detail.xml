@@ -57,6 +57,20 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:text="@tools:sample/lorem[10]" />
 
+        <TextView
+            android:id="@+id/tv_category"
+            style="@style/Widget.Arch.MultilineBody"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{viewModel.link.category}"
+            android:textAlignment="viewStart"
+            app:goneUnless="@{viewModel.link.category != null}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_url"
+            tools:text="@tools:sample/lorem[10]" />
+
         <ImageView
             android:id="@+id/iv_preview"
             android:layout_width="0dp"
@@ -71,7 +85,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/tv_url"
+            app:layout_constraintTop_toBottomOf="@+id/tv_category"
             app:placeholder="@{@drawable/generic_placeholder}"
             tools:src="@drawable/event_header_sessions"
             tools:visibility="visible" />

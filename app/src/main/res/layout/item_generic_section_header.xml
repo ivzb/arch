@@ -17,5 +17,5 @@
         android:paddingRight="@{ sectionHeader.useHorizontalPadding ? @dimen/margin_normal : 0 }"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.Arch.Overline"
-        android:text="@{sectionHeader.titleId}" />
+        android:text="@{sectionHeader.title}" />
 </layout>

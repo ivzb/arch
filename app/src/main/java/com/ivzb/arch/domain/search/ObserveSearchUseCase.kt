@@ -27,7 +27,8 @@ class ObserveSearchUseCase @Inject constructor(
                     query.isEmpty() ||
                             link.title?.toLowerCase()?.contains(query) ?: false ||
                             link.sitename?.toLowerCase()?.contains(query) ?: false ||
-                            link.url.toLowerCase().contains(query)
+                            link.url.toLowerCase().contains(query) ||
+                            link.category.toLowerCase().contains(query) ?: false
                 }
                 .map { Searchable.SearchedLink(it) }
         }

@@ -60,6 +60,16 @@ class EditFragment : MainNavigationFragment() {
             }
         }
 
+        binding.tilCategory.setEndIconOnClickListener {
+            if (clipboard.hasLink()) {
+                binding.etCategory.setText(clipboard.getLink())
+                analyticsHelper.logUiEvent(AnalyticsActions.EDIT_CATEGORY_CLIPBOARD)
+            } else {
+                Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
+                analyticsHelper.logUiEvent(AnalyticsActions.EDIT_CATEGORY_EMPTY_CLIPBOARD)
+            }
+        }
+
         binding.etUrl.doOnTextChanged { text, _, _, _ ->
             detailsViewModel.typeUrl(text.toString())
         }
@@ -67,11 +77,13 @@ class EditFragment : MainNavigationFragment() {
         requireArguments().apply {
             val linkId = EditFragmentArgs.fromBundle(this).linkId
             val linkUrl = EditFragmentArgs.fromBundle(this).linkUrl
+            val linkCategory = EditFragmentArgs.fromBundle(this).linkCategory
 
             binding.etUrl.setText(linkUrl)
+            binding.etCategory.setText(linkCategory)
 
             binding.fabSaveLink.setOnClickListener {
-                detailsViewModel.editLink(linkId, binding.etUrl.text.toString())
+                detailsViewModel.editLink(linkId, binding.etUrl.text.toString(), binding.etCategory.text.toString())
                 analyticsHelper.logUiEvent(AnalyticsActions.EDIT_LINK_MANUALLY)
                 binding.root.dismissKeyboard()
                 requireActivity().onBackPressed()

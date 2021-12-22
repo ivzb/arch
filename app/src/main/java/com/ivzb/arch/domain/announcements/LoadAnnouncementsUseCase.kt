@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 open class LoadAnnouncementsUseCase @Inject constructor(
     private val repository: AnnouncementsRepository
-) : UseCase<Unit, List<Announcement>>() {
+) : UseCase<AnnouncementsParameters, List<Announcement>>() {
 
-    override fun execute(parameters: Unit): List<Announcement> {
-        return repository.getAnnouncements()
+    override fun execute(parameters: AnnouncementsParameters): List<Announcement> {
+        return repository.getAnnouncements(parameters)
     }
 }

@@ -1,13 +1,16 @@
 package com.ivzb.arch.ui.feed
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ivzb.arch.BuildConfig
 import com.ivzb.arch.R
 import com.ivzb.arch.domain.Event
 import com.ivzb.arch.domain.Result
 import com.ivzb.arch.domain.Result.Loading
+import com.ivzb.arch.domain.announcements.AnnouncementsParameters
 import com.ivzb.arch.domain.announcements.LoadAnnouncementsUseCase
 import com.ivzb.arch.domain.links.FetchLinkMetaDataUseCase
 import com.ivzb.arch.domain.links.InsertLinkUseCase
@@ -53,7 +56,23 @@ class FeedViewModel @Inject constructor(
     }
 
     init {
-        loadAnnouncementsUseCase(Unit, loadAnnouncementsResult)
+        val links = loadLinksResult.map {
+            if (it is Loading) {
+                listOf(LoadingIndicator)
+            } else {
+                val items = it.successOr(emptyList())
+
+                val announcementsParameters = AnnouncementsParameters(
+                    hasLinks = items.isNotEmpty(),
+                    hasCategories = items.any { item -> item.category != "" },
+                    appVersion = BuildConfig.VERSION_NAME
+                )
+
+                loadAnnouncementsUseCase(announcementsParameters, loadAnnouncementsResult)
+
+                if (items.isNotEmpty()) items else listOf(LinkEmpty)
+            }
+        }
 
         val announcements: LiveData<List<Any>> = loadAnnouncementsResult.map {
             if (it is Loading) {
@@ -63,28 +82,35 @@ class FeedViewModel @Inject constructor(
             }
         }
 
-        val links = loadLinksResult.map {
-            if (it is Loading) {
-                listOf(LoadingIndicator)
-            } else {
-                val items = it.successOr(emptyList())
-                if (items.isNotEmpty()) items else listOf(LinkEmpty)
-            }
-        }
-
         // Compose feed
         feed = announcements.combine(links) { announcementItems, linkItems ->
 
             val feedItems = mutableListOf<Any>()
 
-            if (announcementItems.isNotEmpty() && !(linkItems[0] is Link)) {
-//                feedItems.add(SectionHeader(R.string.feed_announcements_title))
+            Log.d("debug_log", "announcements = ${announcementItems}")
+
+            if (announcementItems.isNotEmpty()) {
+                feedItems.add(SectionHeader("Announcements"))
                 feedItems.addAll(announcementItems)
             }
 
-            feedItems.plus(SectionHeader(R.string.feed_links_title))
-                .plus(linkItems)
+            linkItems
+                .groupBy {
+                    if (it is Link) it.category.toLowerCase() else ""
+                }
+                .entries
+                .sortedBy { it.key.toLowerCase() }
+                .forEach { (category, links) ->
+                    if (category != "") {
+                        feedItems.add(SectionHeader(category))
+                    } else {
+                        feedItems.add(SectionHeader("Links"))
+                    }
 
+                    feedItems.addAll(links)
+                }
+
+            feedItems
         }
 
         errorMessage = loadLinksResult.map {
@@ -122,7 +148,7 @@ class FeedViewModel @Inject constructor(
     }
 
     fun addLink(value: String) {
-        Link(url = extractUrl(value)).let {
+        Link(url = extractUrl(value), category = "").let {
             insertLinkUseCase(it)
             fetchLinkMetaDataUseCase(it)
         }

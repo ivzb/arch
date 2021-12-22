@@ -122,7 +122,7 @@ class DetailsFragment : MainNavigationFragment() {
 
         binding.fabEditLink.setOnClickListener {
             detailsViewModel.link.value?.apply {
-                openEdit(id, url)
+                openEdit(id, url, category)
             }
         }
 
@@ -140,8 +140,8 @@ class DetailsFragment : MainNavigationFragment() {
         analyticsHelper.sendScreenView(AnalyticsScreens.DETAILS, requireActivity())
     }
 
-    private fun openEdit(id: Int, url: String) {
+    private fun openEdit(id: Int, url: String, category: String) {
         analyticsHelper.logUiEvent(AnalyticsActions.DETAILS_TO_EDIT)
-        findNavController().navigate(toEdit(id, url))
+        findNavController().navigate(toEdit(id, url, category))
     }
 }

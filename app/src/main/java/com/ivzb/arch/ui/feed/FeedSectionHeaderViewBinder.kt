@@ -24,7 +24,7 @@ class FeedSectionHeaderViewBinder :
     override fun getFeedItemType(): Int = R.layout.item_generic_section_header
 
     override fun areItemsTheSame(oldItem: SectionHeader, newItem: SectionHeader): Boolean =
-        oldItem.titleId == newItem.titleId
+        oldItem.title == newItem.title
 
     // This is called if [areItemsTheSame] is true, in which case we know the contents match.
     override fun areContentsTheSame(oldItem: SectionHeader, newItem: SectionHeader) = true

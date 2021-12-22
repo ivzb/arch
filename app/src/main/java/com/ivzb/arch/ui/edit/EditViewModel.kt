@@ -23,8 +23,8 @@ class EditViewModel @Inject constructor(
         _canEditLink.postValue(value.isNotEmpty())
     }
 
-    fun editLink(id: Int, value: String) {
-        Link(id = id, url = extractUrl(value)).let {
+    fun editLink(id: Int, urlValue: String, categoryValue: String) {
+        Link(id = id, url = extractUrl(urlValue), category = categoryValue).let {
             updateLinkUseCase(it)
             fetchLinkMetaDataUseCase(it)
         }

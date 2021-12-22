@@ -60,12 +60,22 @@ class AddFragment : MainNavigationFragment() {
             }
         }
 
+        binding.tilCategory.setEndIconOnClickListener {
+            if (clipboard.hasLink()) {
+                binding.etCategory.setText(clipboard.getLink())
+                analyticsHelper.logUiEvent(AnalyticsActions.ADD_CATEGORY_CLIPBOARD)
+            } else {
+                Toast.makeText(requireContext(), "Clipboard is empty.", Toast.LENGTH_LONG).show()
+                analyticsHelper.logUiEvent(AnalyticsActions.ADD_CATEGORY_EMPTY_CLIPBOARD)
+            }
+        }
+
         binding.etUrl.doOnTextChanged { text, _, _, _ ->
             addViewModel.typeUrl(text.toString())
         }
 
         binding.fabSaveLink.setOnClickListener {
-            addViewModel.addLink(binding.etUrl.text.toString())
+            addViewModel.addLink(binding.etUrl.text.toString(), binding.etCategory.text.toString())
             analyticsHelper.logUiEvent(AnalyticsActions.ADD_LINK_MANUALLY)
             binding.root.dismissKeyboard()
             requireActivity().onBackPressed()

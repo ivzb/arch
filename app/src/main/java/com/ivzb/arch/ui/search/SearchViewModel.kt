@@ -10,6 +10,7 @@ import com.ivzb.arch.domain.search.ObserveSearchUseCase
 import com.ivzb.arch.domain.search.Searchable
 import com.ivzb.arch.domain.successOr
 import com.ivzb.arch.model.Link
+import com.ivzb.arch.util.checkAllMatched
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -44,7 +45,8 @@ class SearchViewModel @Inject constructor(
                             subtitle= link.url,
                             imageUrl = link.imageUrl,
                             sitename = link.sitename,
-                            type = SearchResultType.LINK
+                            type = SearchResultType.LINK,
+                            category = link.category
                         )
                     }
                 }
@@ -65,7 +67,8 @@ class SearchViewModel @Inject constructor(
                     id = searchResult.id,
                     title = searchResult.title,
                     url = searchResult.subtitle,
-                    imageUrl = searchResult.imageUrl
+                    imageUrl = searchResult.imageUrl,
+                    category = searchResult.category
                 )))
             }
         }
@@ -78,7 +81,8 @@ class SearchViewModel @Inject constructor(
                     id = searchResult.id,
                     title = searchResult.title,
                     url = searchResult.subtitle,
-                    imageUrl = searchResult.imageUrl
+                    imageUrl = searchResult.imageUrl,
+                    category = searchResult.category
                 )))
             }
         }

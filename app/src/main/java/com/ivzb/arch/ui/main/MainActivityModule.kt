@@ -7,7 +7,6 @@ import com.ivzb.arch.ui.link.LinkOptionsDialogFragment
 import com.ivzb.arch.ui.link.LinkOptionsViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 

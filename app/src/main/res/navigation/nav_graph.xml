@@ -65,6 +65,10 @@
         <argument
             android:name="link_url"
             app:argType="string" />
+
+        <argument
+            android:name="link_category"
+            app:argType="string" />
     </fragment>
 
 

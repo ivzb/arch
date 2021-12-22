@@ -6,7 +6,8 @@ data class SearchResult(
     val subtitle: String,
     val imageUrl: String?,
     val sitename: String?,
-    val type: SearchResultType
+    val type: SearchResultType,
+    val category: String
 )
 
 enum class SearchResultType {

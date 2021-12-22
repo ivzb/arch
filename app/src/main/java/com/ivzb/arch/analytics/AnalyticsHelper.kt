@@ -20,9 +20,15 @@ object AnalyticsActions {
     const val ADD_LINK_SHARE = "add_link_share"
     const val ADD_LINK_EMPTY_CLIPBOARD = "add_link_empty_clipboard"
 
+    const val ADD_CATEGORY_CLIPBOARD = "add_category_manually_clipboard"
+    const val ADD_CATEGORY_EMPTY_CLIPBOARD = "add_category_empty_clipboard"
+
     const val EDIT_LINK_CLIPBOARD = "edit_link_manually_clipboard"
     const val EDIT_LINK_MANUALLY = "edit_link_manually_manually"
     const val EDIT_LINK_EMPTY_CLIPBOARD = "edit_link_empty_clipboard"
+
+    const val EDIT_CATEGORY_CLIPBOARD = "edit_category_manually_clipboard"
+    const val EDIT_CATEGORY_EMPTY_CLIPBOARD = "edit_category_empty_clipboard"
 
     const val LINK_COPY = "link_copy"
     const val LINK_SHARE = "link_share"

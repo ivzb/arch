@@ -23,8 +23,8 @@ class AddViewModel @Inject constructor(
         _canAddLink.postValue(value.isNotEmpty())
     }
 
-    fun addLink(value: String) {
-        Link(url = extractUrl(value)).let {
+    fun addLink(urlValue: String, categoryValue: String) {
+        Link(url = extractUrl(urlValue), category = categoryValue).let {
             insertLinkUseCase(it)
             fetchLinkMetaDataUseCase(it)
         }

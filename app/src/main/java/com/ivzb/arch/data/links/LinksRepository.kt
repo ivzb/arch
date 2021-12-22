@@ -68,15 +68,17 @@ open class DefaultFeedRepository @Inject constructor(
         appDatabase.linksFtsDao().insert(
             LinkFtsEntity(
                 id = link.id,
-                url = link.url
+                url = link.url,
+                category = link.category
             )
         )
     }
 
     override fun update(link: Link) {
         appDatabase.linksFtsDao().update(
-            link.id,
-            link.url
+            id = link.id,
+            url = link.url,
+            category = link.category
         )
     }
 
@@ -98,6 +100,7 @@ open class DefaultFeedRepository @Inject constructor(
         url = it.url,
         sitename = it.sitename,
         title = it.title,
-        imageUrl = it.imageUrl
+        imageUrl = it.imageUrl,
+        category = it.category
     )
 }

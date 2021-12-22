@@ -18,7 +18,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun handleLink(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            Link(url = extractUrl(it)).let {
+            Link(url = extractUrl(it), category = "").let {
                 insertLinkUseCase(it)
                 fetchLinkMetaDataUseCase(it)
             }

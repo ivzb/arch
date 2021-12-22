@@ -13,7 +13,8 @@ data class Link(
     val url: String,
     val sitename: String? = null,
     val title: String? = null,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val category: String
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -27,6 +28,7 @@ data class Link(
         if (sitename != other.sitename) return false
         if (title != other.title) return false
         if (imageUrl != other.imageUrl) return false
+        if (category != other.category) return false
 
         return true
     }
@@ -37,6 +39,7 @@ data class Link(
         result = 31 * result + (sitename?.hashCode() ?: 0)
         result = 31 * result + (title?.hashCode() ?: 0)
         result = 31 * result + (imageUrl?.hashCode() ?: 0)
+        result = 31 * result + (category.hashCode() ?: 0)
         return result
     }
 }
